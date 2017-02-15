@@ -86,20 +86,20 @@ message CanonicalRpcStats {
   View rpc_client_errors = 1;
   View rpc_client_completed_rpcs = 2;
   View rpc_client_started_rpcs = 3;
-  View rpc_client_elapsed_time_in_usec = 4;
-  View rpc_client_server_elapsed_time_in_usec = 5;
+  View rpc_client_elapsed_time = 4;
+  View rpc_client_server_elapsed_time = 5;
   View rpc_client_request_bytes = 6;
   View rpc_client_response_bytes = 7;
   View rpc_client_request_count = 8;
   View rpc_client_response_count = 9;
   View rpc_server_errors = 10;
   View rpc_server_completed_rpcs = 11;
-  View rpc_server_server_elapsed_time_in_usec = 12;
+  View rpc_server_server_elapsed_time = 12;
   View rpc_server_request_bytes = 13;
   View rpc_server_response_bytes = 14;
   View rpc_server_request_count = 15;
   View rpc_server_response_count = 16;
-  View rpc_server_elapsed_time_in_usec = 17;
+  View rpc_server_elapsed_time = 17;
   //TODO(ericgribkoff) Add minute-hour interval stats.
 }
 
