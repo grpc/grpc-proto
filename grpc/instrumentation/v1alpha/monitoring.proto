@@ -78,8 +78,9 @@ service Monitoring {
 message CanonicalRpcStats {
   // Wrapper combining View and ViewDescriptor.
   message View {
-    google.instrumentation.View view = 1;
-    google.instrumentation.ViewDescriptor view_descriptor = 2;
+    google.instrumentation.ViewDescriptor view_descriptor = 1;
+    google.instrumentation.MeasurementDescriptor measurement_descriptor = 2;
+    google.instrumentation.View view = 3;
   }
 
   View rpc_client_errors = 1;
