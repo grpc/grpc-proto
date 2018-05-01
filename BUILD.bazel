@@ -27,3 +27,9 @@ proto_library(
         "@com_google_protobuf//:wrappers_proto",
     ],
 )
+
+proto_library(
+    name = "health_proto",
+    srcs = ["grpc/health/v1/health.proto"],
+    visibility = ["//visibility:public"],
+)
