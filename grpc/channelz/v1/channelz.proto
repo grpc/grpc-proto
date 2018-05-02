@@ -17,7 +17,7 @@
 // https://github.com/grpc/proposal/blob/master/A14-channelz.md
 //
 // The canonical version of this proto can be found at
-// https://github.com/grpc/grpc-proto/blob/master/grpc/channelz/channelz.proto
+// https://github.com/grpc/grpc-proto/blob/master/grpc/channelz/v1/channelz.proto
 
 syntax = "proto3";
 
@@ -28,7 +28,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
-option go_package = "channelz";
+option go_package = "google.golang.org/grpc/channelz/grpc_channelz_v1";
 option java_multiple_files = true;
 option java_package = "io.grpc.channelz.v1";
 option java_outer_classname = "ChannelzProto";
