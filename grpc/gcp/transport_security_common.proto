@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// The canonical version of this proto can be found at
+// https://github.com/grpc/grpc-proto/blob/master/grpc/gcp/transport_security_common.proto
+
 syntax = "proto3";
 
 package grpc.gcp;
