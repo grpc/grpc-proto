@@ -33,3 +33,13 @@ proto_library(
     srcs = ["grpc/health/v1/health.proto"],
     visibility = ["//visibility:public"],
 )
+
+proto_library(
+    name = "alts_handshaker_proto",
+    srcs = [
+        "grpc/gcp/altscontext.proto",
+        "grpc/gcp/handshaker.proto",
+        "grpc/gcp/transport_security_common.proto",
+    ],
+    visibility = ["//visibility:public"],
+)
