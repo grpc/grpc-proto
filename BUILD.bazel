@@ -18,7 +18,7 @@ package(default_visibility = [
 
 proto_library(
     name = "channelz_proto",
-    srcs = ["grpc/channelz/channelz.proto"],
+    srcs = ["grpc/channelz/v1/channelz.proto"],
     visibility = ["//visibility:public"],
     deps = [
         "@com_google_protobuf//:any_proto",
