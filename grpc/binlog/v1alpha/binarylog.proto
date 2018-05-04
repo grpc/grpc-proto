@@ -37,7 +37,7 @@ message GrpcLogEntry {
     RECV_MESSAGE = 6;
     // Client side only.
     CLIENT_SEND_CANCEL = 7;
-    // Server side only. This is the last event for server side.
+    // Server side only. This means the RPC has now ended.
     SERVER_END_CALL = 8;
   };
 
