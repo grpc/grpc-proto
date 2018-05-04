@@ -52,7 +52,13 @@ message GrpcLogEntry {
   // The logger uses one of the following fields to record the payload,
   // according to the type of the log entry.
   oneof payload {
-    // Used by CLIENT_INIT_METADATA, SERVER_INIT_METADATA and TRAILING_METADATA
+    // Used by CLIENT_INIT_METADATA, SERVER_INIT_METADATA and
+    // TRAILING_METADATA. The contents may be different depending on
+    // the gRPC implementation. For example, C shows the http/2
+    // headers such as :method to applications but Java hides http/2
+    // implementation details.  Information that is guaranteed to be
+    // present for all gRPC implemetnations (such as the full method
+    // name) is always denormalized into GrpcLogEntry.
     Metadata metadata = 4;
     // Used by REQUEST and RESPONSE
     Message message = 5;
@@ -64,6 +70,9 @@ message GrpcLogEntry {
 
   // true if payload does not represent the full message or metadata.
   bool truncated = 7;
+
+  // The method name.
+  string full_method_name = 8;
 };
 
 // Message payload, used by REQUEST and RESPONSE
