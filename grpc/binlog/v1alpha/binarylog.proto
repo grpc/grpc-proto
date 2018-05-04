@@ -31,8 +31,14 @@ message GrpcLogEntry {
     SEND_TRAILING_METADATA = 2;
     SEND_MESSAGE = 3;
     RECV_INITIAL_METADATA = 4;
+    // On server side, this event means the client has half-closed.
+    // On client side, this is means the RPC has now ended.
     RECV_TRAILING_METADATA = 5;
     RECV_MESSAGE = 6;
+    // Client side only.
+    CLIENT_SEND_CANCEL = 7;
+    // Server side only. This is the last event for server side.
+    SERVER_END_CALL = 8;
   };
 
   // Enumerates the entity that generates the log entry
@@ -40,6 +46,17 @@ message GrpcLogEntry {
     UNKNOWN_LOGGER = 0;
     CLIENT = 1;
     SERVER = 2;
+  }
+
+  // On server side, SEND_TRAILING_METADATA does not end the call
+  // because the client can still cancel the call.  This enum shows
+  // the way the call actually ended.
+  enum ServerCallEnd {
+    UNKNOWN_END = 0;
+    // The call ended normally
+    NORMAL = 1;
+    // The call ended abnormally
+    ABNORMAL = 2;
   }
 
   Type type = 1;      // One of the above Type enum
@@ -64,6 +81,9 @@ message GrpcLogEntry {
 
   // true if payload does not represent the full message or metadata.
   bool truncated = 7;
+
+  // For SERVER_END_CALL only.
+  ServerCallEnd server_end = 8;
 };
 
 // Message payload, used by REQUEST and RESPONSE
