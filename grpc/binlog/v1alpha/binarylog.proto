@@ -58,8 +58,7 @@ message GrpcLogEntry {
     Message message = 5;
   }
 
-  // Peer address information, will only be recorded in SEND_INITIAL_METADATA
-  // and RECV_INITIAL_METADATA entries.
+  // Peer address information. Always logged for each entry.
   Peer peer = 6;
 };
 
