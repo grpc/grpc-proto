@@ -71,6 +71,14 @@ message GrpcLogEntry {
 
   // The method name.
   string full_method_name = 8;
+
+  // status_code and status_message:
+  // Only present for SEND_TRAILING_METADATA on server side or
+  // RECV_TRAILING_METADATA on client side.
+  uint32 status_code = 9;
+  // An original status message before any transport specific
+  // encoding.
+  string status_message = 10;
 };
 
 // Message payload, used by REQUEST and RESPONSE
