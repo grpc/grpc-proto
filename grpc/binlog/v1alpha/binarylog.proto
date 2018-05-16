@@ -53,12 +53,10 @@ message GrpcLogEntry {
   // according to the type of the log entry.
   oneof payload {
     // Used by CLIENT_INIT_METADATA, SERVER_INIT_METADATA and
-    // TRAILING_METADATA. The contents may be different depending on
-    // the gRPC implementation. For example, C shows the http/2
-    // headers such as :method to applications but Java hides http/2
-    // implementation details.  Information that is guaranteed to be
-    // present for all gRPC implemetnations (such as the full method
-    // name) is always denormalized into GrpcLogEntry.
+    // TRAILING_METADATA. The contents may be slightly different
+    // depending on the transport implementation. For example, some
+    // http2 based implementations may include extra information here
+    // like :path.
     Metadata metadata = 4;
     // Used by REQUEST and RESPONSE
     Message message = 5;
