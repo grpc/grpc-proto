@@ -52,13 +52,11 @@ message GrpcLogEntry {
   // The logger uses one of the following fields to record the payload,
   // according to the type of the log entry.
   oneof payload {
-    // Used by CLIENT_INIT_METADATA, SERVER_INIT_METADATA and
-    // TRAILING_METADATA. The contents may be slightly different
-    // depending on the transport implementation. For example, some
-    // http2 based implementations may include extra information here
-    // like :path.
+    // Used by {SEND,RECV}_INITIAL_METADATA and
+    // {SEND,RECV}_TRAILING_METADATA. This contains only the metadata
+    // from the application.
     Metadata metadata = 4;
-    // Used by REQUEST and RESPONSE
+    // Used by {SEND,RECV}_MESSAGE
     Message message = 5;
   }
 
@@ -69,8 +67,8 @@ message GrpcLogEntry {
   // true if payload does not represent the full message or metadata.
   bool truncated = 7;
 
-  // The method name.
-  string full_method_name = 8;
+  // The method name. Always logged for every entry.
+  string method_name = 8;
 
   // status_code and status_message:
   // Only present for SEND_TRAILING_METADATA on server side or
