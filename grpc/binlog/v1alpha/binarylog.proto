@@ -85,6 +85,8 @@ message Message {
 // of GRPC_BINARY_LOG_CONFIG. Implementations can choose which entries are logged.
 message Metadata {
   repeated MetadataEntry entry = 1;
+  // true if 'entry' does not represent the full set of metadata.
+  bool truncated = 2;
 }
 
 // A metadata key value pair
