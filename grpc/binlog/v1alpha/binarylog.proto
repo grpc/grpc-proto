@@ -97,12 +97,13 @@ message MetadataEntry {
 message Peer {
   enum PeerType {
     UNKNOWN_PEERTYPE = 0;
-    PEER_IPV4 = 1;  // peer is struct sockaddr_in
-    PEER_IPV6 = 2;  // peer is struct sockaddr_in6
-    PEER_UNIX = 3;  // peer is struct sockaddr_un
+    PEER_IPV4 = 1;  // peer is 4 byte ipv4 address
+    PEER_IPV6 = 2;  // peer is 16 byte ipv6 address
+    PEER_UNIX = 3;  // peer is UDS string
   };
   PeerType peer_type = 1;
   bytes peer = 2;  // value depends on peer_type
+  uint16 port = 3; // only for PEER_IPV4 and PEER_IPV6
 }
 
 // Used to record call_id.
