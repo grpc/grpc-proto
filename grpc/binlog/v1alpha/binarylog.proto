@@ -97,12 +97,15 @@ message MetadataEntry {
 message Peer {
   enum PeerType {
     UNKNOWN_PEERTYPE = 0;
-    PEER_IPV4 = 1;  // peer is 4 byte ipv4 address
-    PEER_IPV6 = 2;  // peer is 16 byte ipv6 address
-    PEER_UNIX = 3;  // peer is UDS string
+    // peer is the address in 1.2.3.4 form
+    PEER_IPV4 = 1;
+    // peer the address in canonical form (RFC5952 section 4)
+    PEER_IPV6 = 2;
+    // peer is UDS string
+    PEER_UNIX = 3;
   };
   PeerType peer_type = 1;
-  bytes peer = 2;  // value depends on peer_type
+  string peer = 2;  // value depends on peer_type
   uint16 port = 3; // only for PEER_IPV4 and PEER_IPV6
 }
 
