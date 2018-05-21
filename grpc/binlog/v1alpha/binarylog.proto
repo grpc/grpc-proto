@@ -61,6 +61,9 @@ message GrpcLogEntry {
   // Peer address information, will only be recorded in SEND_INITIAL_METADATA
   // and RECV_INITIAL_METADATA entries.
   Peer peer = 6;
+
+  // true if payload not represent the full message or metadata.
+  bool truncated = 7;
 };
 
 // Message payload, used by REQUEST and RESPONSE
@@ -74,8 +77,7 @@ message Message {
   // Length of the message. It may not be the same as the length of the
   // data field, as the logging payload can be truncated or omitted.
   uint32 length = 2;
-  // Binary payload, post compression (depends on the flags field), may be
-  // truncated or omitted.
+  // May be truncated or omitted.
   bytes data = 3;
 }
 
@@ -85,8 +87,6 @@ message Message {
 // of GRPC_BINARY_LOG_CONFIG. Implementations can choose which entries are logged.
 message Metadata {
   repeated MetadataEntry entry = 1;
-  // true if 'entry' does not represent the full set of metadata.
-  bool truncated = 2;
 }
 
 // A metadata key value pair
