@@ -77,6 +77,11 @@ message GrpcLogEntry {
   // An original status message before any transport specific
   // encoding.
   string status_message = 10;
+
+  // the deadline in nanoseconds
+  uint64 deadline_ns = 11;
+
+  // more things may go here like: authority, agent
 };
 
 // Message payload, used by REQUEST and RESPONSE
