@@ -105,8 +105,12 @@ message Peer {
     PEER_UNIX = 3;
   };
   PeerType peer_type = 1;
-  string peer = 2;  // value depends on peer_type
-  uint16 port = 3; // only for PEER_IPV4 and PEER_IPV6
+  // value depends on peer_type
+  string peer = 2;
+  // only for PEER_IPV4 and PEER_IPV6
+  uint16 ip_port = 3;
+  // only for PEER_IPV6
+  string ipv6_scope = 4;
 }
 
 // Used to record call_id.
