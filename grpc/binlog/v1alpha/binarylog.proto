@@ -109,7 +109,7 @@ message Peer {
   string peer = 2;
   // only for PEER_IPV4 and PEER_IPV6
   uint16 ip_port = 3;
-  // only for PEER_IPV6
+  // Optional: only for PEER_IPV6 link local addresses
   string ipv6_scope = 4;
 }
 
