@@ -62,7 +62,7 @@ message GrpcLogEntry {
   // and RECV_INITIAL_METADATA entries.
   Peer peer = 6;
 
-  // true if payload not represent the full message or metadata.
+  // true if payload does not represent the full message or metadata.
   bool truncated = 7;
 };
 
