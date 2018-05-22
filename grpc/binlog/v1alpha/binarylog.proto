@@ -78,8 +78,8 @@ message GrpcLogEntry {
   // encoding.
   string status_message = 10;
 
-  // the deadline in nanoseconds
-  uint64 deadline_ns = 11;
+  // the timeout in nanoseconds
+  uint64 timeout_ns = 11;
 
   // more things may go here like: authority, agent
 };
