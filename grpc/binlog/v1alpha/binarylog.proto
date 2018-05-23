@@ -100,6 +100,7 @@ message Peer {
     // peer is the address in 1.2.3.4 form
     PEER_IPV4 = 1;
     // peer the address in canonical form (RFC5952 section 4)
+    // The scope is NOT included in the peer string.
     PEER_IPV6 = 2;
     // peer is UDS string
     PEER_UNIX = 3;
@@ -109,8 +110,6 @@ message Peer {
   string peer = 2;
   // only for PEER_IPV4 and PEER_IPV6
   uint16 ip_port = 3;
-  // Optional: only for PEER_IPV6 link local addresses
-  string ipv6_scope = 4;
 }
 
 // Used to record call_id.
