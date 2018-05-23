@@ -99,12 +99,19 @@ message MetadataEntry {
 message Peer {
   enum PeerType {
     UNKNOWN_PEERTYPE = 0;
-    PEER_IPV4 = 1;  // peer is struct sockaddr_in
-    PEER_IPV6 = 2;  // peer is struct sockaddr_in6
-    PEER_UNIX = 3;  // peer is struct sockaddr_un
+    // address is the address in 1.2.3.4 form
+    PEER_IPV4 = 1;
+    // address the address in canonical form (RFC5952 section 4)
+    // The scope is NOT included in the peer string.
+    PEER_IPV6 = 2;
+    // address is UDS string
+    PEER_UNIX = 3;
   };
   PeerType peer_type = 1;
-  bytes peer = 2;  // value depends on peer_type
+  bytes peer = 2; // will be removed: do not use
+  string address = 3;
+  // only for PEER_IPV4 and PEER_IPV6
+  uint32 ip_port = 4;
 }
 
 // Used to record call_id.
