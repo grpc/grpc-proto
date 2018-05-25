@@ -112,8 +112,8 @@ message Message {
 // 
 // Implementations will log 'grpc-status-details-bin' unless truncated.
 //
-// Implementations will not log the following entries, and excluding them
-// will not count as a truncation:
+// Implementations will not log the following entries, and this is
+// not to be treated as a truncation:
 // - entries handled by grpc and are not user visible, such as those
 //   that begin with 'grpc-' or keys like 'lb-token'
 // - transport specific entries, including but not limited to:
