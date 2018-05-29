@@ -18,6 +18,7 @@ syntax = "proto3";
 
 package grpc.binarylog.v1alpha;
 
+import "google/protobuf/any.proto";
 import "google/protobuf/duration.proto";
 
 option java_multiple_files = true;
@@ -78,18 +79,23 @@ message GrpcLogEntry {
   // Only present for SEND_TRAILING_METADATA on server side or
   // RECV_TRAILING_METADATA on client side.
   uint32 status_code = 9;
+
+  // The value of the 'grpc-status-details-bin' metadata key. If
+  // present, this is always an encoded 'google.rpc.Status' message.
+   google.protobuf.Any status_details = 10;
+
   // An original status message before any transport specific
   // encoding.
-  string status_message = 10;
+  string status_message = 11;
 
   // the RPC timeout
-  google.protobuf.Duration timeout = 11;
+  google.protobuf.Duration timeout = 12;
 
   // The entry sequence id for this call. The first GrpcLogEntry has a
   // value of 1, to disambiguate from an unset value. The purpose of
   // this field is to detect missing entries in environments where
   // durability or ordering is not guaranteed.
-  uint32 sequence_id_within_call = 12;
+  uint32 sequence_id_within_call = 13;
 };
 
 // Message payload, used by REQUEST and RESPONSE
@@ -112,8 +118,6 @@ message Message {
 // Implementations may omit some entries to honor the header limits
 // of GRPC_BINARY_LOG_CONFIG.
 // 
-// Implementations will log 'grpc-status-details-bin' unless truncated.
-//
 // Implementations will not log the following entries, and this is
 // not to be treated as a truncation:
 // - entries handled by grpc that are not user visible, such as those
