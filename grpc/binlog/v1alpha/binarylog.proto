@@ -83,10 +83,12 @@ message GrpcLogEntry {
   string status_message = 10;
 
   // the timeout in nanoseconds
-  google.protobuf.Duration timeout_ns = 11;
+  google.protobuf.Duration timeout = 11;
 
-  // The entry sequence id for this call. The first GrpcLogEntry has
-  // a value of 1, to disambiguate from an unset value.
+  // The entry sequence id for this call. The first GrpcLogEntry has a
+  // value of 1, to disambiguate from an unset value. The purpose of
+  // this field is to detect missing entries in environments where
+  // durability or ordering is not guaranteed.
   uint32 sequence_id_within_call = 12;
 };
 
@@ -114,7 +116,7 @@ message Message {
 //
 // Implementations will not log the following entries, and this is
 // not to be treated as a truncation:
-// - entries handled by grpc and are not user visible, such as those
+// - entries handled by grpc that are not user visible, such as those
 //   that begin with 'grpc-' or keys like 'lb-token'
 // - transport specific entries, including but not limited to:
 //   ':path', ':authority', 'content-encoding', 'user-agent', 'te', etc
