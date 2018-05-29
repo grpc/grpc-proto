@@ -82,7 +82,7 @@ message GrpcLogEntry {
   // encoding.
   string status_message = 10;
 
-  // the timeout in nanoseconds
+  // the RPC timeout
   google.protobuf.Duration timeout = 11;
 
   // The entry sequence id for this call. The first GrpcLogEntry has a
