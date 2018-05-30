@@ -18,7 +18,6 @@ syntax = "proto3";
 
 package grpc.binarylog.v1alpha;
 
-import "google/protobuf/any.proto";
 import "google/protobuf/duration.proto";
 
 option java_multiple_files = true;
@@ -82,7 +81,7 @@ message GrpcLogEntry {
 
   // The value of the 'grpc-status-details-bin' metadata key. If
   // present, this is always an encoded 'google.rpc.Status' message.
-   google.protobuf.Any status_details = 10;
+  bytes status_details = 10;
 
   // An original status message before any transport specific
   // encoding.
