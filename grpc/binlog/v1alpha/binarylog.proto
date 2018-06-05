@@ -79,13 +79,13 @@ message GrpcLogEntry {
   // RECV_TRAILING_METADATA on client side.
   uint32 status_code = 9;
 
-  // The value of the 'grpc-status-details-bin' metadata key. If
-  // present, this is always an encoded 'google.rpc.Status' message.
-  bytes status_details = 10;
-
   // An original status message before any transport specific
   // encoding.
-  string status_message = 11;
+  string status_message = 10;
+
+  // The value of the 'grpc-status-details-bin' metadata key. If
+  // present, this is always an encoded 'google.rpc.Status' message.
+  bytes status_details = 11;
 
   // the RPC timeout
   google.protobuf.Duration timeout = 12;
