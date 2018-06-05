@@ -28,6 +28,9 @@ message GrpcLogEntry {
   enum Type {
     UNKNOWN_TYPE = 0;
     SEND_INITIAL_METADATA = 1;
+    // On server side, a SERVER_CANCEL can still happen after sending
+    // trailers.
+    // On client side, this is means the client has half closed.
     SEND_TRAILING_METADATA = 2;
     SEND_MESSAGE = 3;
     RECV_INITIAL_METADATA = 4;
