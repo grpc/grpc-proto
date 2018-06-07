@@ -43,3 +43,12 @@ proto_library(
     ],
     visibility = ["//visibility:public"],
 )
+
+proto_library(
+    name = "binarylog_proto",
+    srcs = ["grpc/binlog/v1alpha/binarylog.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_google_protobuf//:duration_proto",
+    ],
+)
