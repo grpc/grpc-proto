@@ -52,3 +52,13 @@ proto_library(
         "@com_google_protobuf//:duration_proto",
     ],
 )
+
+proto_library(
+    name = "grpclb_load_balancer_proto",
+    srcs = ["grpc/lb/v1/load_balancer.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_google_protobuf//:duration_proto",
+        "@com_google_protobuf//:timestamp_proto",
+    ],
+)
