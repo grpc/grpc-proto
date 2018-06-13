@@ -62,3 +62,9 @@ proto_library(
         "@com_google_protobuf//:timestamp_proto",
     ],
 )
+
+proto_library(
+    name = "reflection_proto",
+    srcs = ["grpc/reflection/v1/reflection.proto"],
+    visibility = ["//visibility:public"],
+)
