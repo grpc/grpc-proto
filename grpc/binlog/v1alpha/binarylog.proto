@@ -38,12 +38,8 @@ message GrpcLogEntry {
     // On client side, this is means the RPC has now ended.
     RECV_TRAILING_METADATA = 5;
     RECV_MESSAGE = 6;
-    // Client side only.
-    CLIENT_SEND_CANCEL = 7;
-    // Server side only. The RPC was cancalled, which may happen when
-    // a RST stream is received (client cancellation), a server side
-    // deadline is exceeded, an IO error occurred, etc.
-    SERVER_CANCEL = 8;
+    // The RPC is cancelled.
+    CANCEL = 7;
     // Server side only. This means the RPC has now ended. On server
     // side, SEND_TRAILING_METADATA is not necessarily the end of the
     // RPC, because a SERVER_CANCEL can still happen. A SERVER_END
