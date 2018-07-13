@@ -17,6 +17,42 @@ package(default_visibility = [
 ])
 
 proto_library(
+    name = "stats_proto",
+    srcs = ["grpc/core/stats.proto"],
+)
+
+proto_library(
+    name = "messages_proto",
+    srcs = ["grpc/testing/messages.proto"],
+)
+
+proto_library(
+    name = "benchmark_service_proto",
+    srcs = ["grpc/testing/benchmark_service.proto"],
+    deps = [":messages_proto"],
+)
+
+proto_library(
+    name = "control_proto",
+    srcs = [
+        "grpc/testing/control.proto",
+        "grpc/testing/payloads.proto",
+        "grpc/testing/stats.proto",
+    ],
+    deps = [":stats_proto"],
+)
+
+proto_library(
+    name = "worker_service_proto",
+    srcs = [
+        "grpc/testing/worker_service.proto",
+    ],
+    deps = [
+        ":control_proto",
+    ],
+)
+
+proto_library(
     name = "channelz_proto",
     srcs = ["grpc/channelz/v1/channelz.proto"],
     visibility = ["//visibility:public"],
