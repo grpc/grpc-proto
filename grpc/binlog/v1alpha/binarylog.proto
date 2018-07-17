@@ -39,7 +39,7 @@ message GrpcLogEntry {
 
   // Enumerates the type of logs
   enum EventType {
-    UNKNOWN_TYPE = 0;
+    UNKNOWN_EVENT_TYPE = 0;
     // Headers sent from client to server
     REQUEST_HEADERS = 1;
     // Headers sent from server to client
