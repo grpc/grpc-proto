@@ -37,28 +37,27 @@ message GrpcLogEntry {
     RECV_MESSAGE = 6;
   }
 
-  // Enumerates the type of logs
+  // Enumerates the type of event
   enum EventType {
     UNKNOWN_EVENT_TYPE = 0;
     // Headers sent from client to server
-    REQUEST_HEADERS = 1;
+    CLIENT_HEADER = 1;
     // Headers sent from server to client
-    RESPONSE_HEADERS = 2;
+    SERVER_HEADER = 2;
     // Message sent from client to server
-    REQUEST_MESSAGE = 3;
+    CLIENT_MESSAGE = 3;
     // message sent from server to client
-    RESPONSE_MESSAGE = 4;
+    SERVER_MESSAGE = 4;
     // Signal that client is done sending
-    HALF_CLOSE = 5;
+    CLIENT_HALF_CLOSE = 5;
     // Trailers sent from server to client.
-    // On client side, this is the final entry for an RPC.
+    // On client side, this is the last network event.
     // On server side, a CANCEL can still happen after this.
-    STATUS_TRAILERS = 6;
+    SERVER_TRAILER = 6;
     // Signal that the RPC should be cancelled
     CANCEL = 7;
-    // A special event that only applicable to server side.
-    // This is the final entry for an RPC.
-    SERVER_END_MARKER = 8;
+    // A special marker to indicate that the RPC is done.
+    END_MARKER = 8;
   }
 
   // Enumerates the entity that generates the log entry
