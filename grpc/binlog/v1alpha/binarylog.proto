@@ -39,25 +39,25 @@ message GrpcLogEntry {
 
   // Enumerates the type of event
   enum EventType {
-    UNKNOWN_EVENT_TYPE = 0;
+    EVENT_TYPE_UNKNOWN = 0;
     // Headers sent from client to server
-    CLIENT_HEADER = 1;
+    EVENT_TYPE_CLIENT_HEADER = 1;
     // Headers sent from server to client
-    SERVER_HEADER = 2;
+    EVENT_TYPE_SERVER_HEADER = 2;
     // Message sent from client to server
-    CLIENT_MESSAGE = 3;
+    EVENT_TYPE_CLIENT_MESSAGE = 3;
     // message sent from server to client
-    SERVER_MESSAGE = 4;
+    EVENT_TYPE_SERVER_MESSAGE = 4;
     // Signal that client is done sending
-    CLIENT_HALF_CLOSE = 5;
+    EVENT_TYPE_CLIENT_HALF_CLOSE = 5;
     // Trailers sent from server to client.
     // On client side, this is the last network event.
-    // On server side, a CANCEL can still happen after this.
-    SERVER_TRAILER = 6;
+    // On server side, a EVENT_TYPE_CANCEL can still happen after this.
+    EVENT_TYPE_SERVER_TRAILER = 6;
     // Signal that the RPC should be cancelled
-    CANCEL = 7;
+    EVENT_TYPE_CANCEL = 7;
     // A special marker to indicate that the RPC is done.
-    END_MARKER = 8;
+    EVENT_TYPE_END_MARKER = 8;
   }
 
   // Enumerates the entity that generates the log entry
@@ -77,25 +77,26 @@ message GrpcLogEntry {
   // The logger uses one of the following fields to record the payload,
   // according to the type of the log entry.
   oneof payload {
-    // Used by REQUEST_HEADERS, RESPONSE_HEADERS and
-    // STATUS_TRAILERS. This contains only the metadata
+    // Used by EVENT_TYPE_CLIENT_HEADER, EVENT_TYPE_SERVER_HEADER and
+    // EVENT_TYPE_SERVER_TRAILER. This contains only the metadata
     // from the application.
     Metadata metadata = 4;
-    // Used by REQUEST_MESSAGE, RESPONSE_MESSAGE
+    // Used by EVENT_TYPE_CLIENT_MESSAGE, EVENT_TYPE_SERVER_MESSAGE
     Message message = 5;
   }
 
-  // Peer address information, will only be recorded in REQUEST_HEADERS
+  // Peer address information, will only be recorded in
+  // EVENT_TYPE_CLIENT_HEADER or EVENT_TYPE_SERVER_HEADER
   Peer peer = 6;
 
   // true if payload does not represent the full message or metadata.
   bool truncated = 7;
 
-  // The method name. Logged for REQUEST_HEADERS
+  // The method name. Logged for EVENT_TYPE_CLIENT_HEADER
   string method_name = 8;
 
   // status_code and status_message:
-  // Only present for STATUS_TRAILERS.
+  // Only present for EVENT_TYPE_SERVER_TRAILER.
   uint32 status_code = 9;
 
   // An original status message before any transport specific
@@ -119,7 +120,7 @@ message GrpcLogEntry {
   EventType event_type = 14;
 };
 
-// Message payload, used by REQUEST_MESSAGE and RESPONSE_MESSAGE
+// Message payload, used by CLIENT_MESSAGE and SERVER_MESSAGE
 message Message {
   // This flag is currently used to indicate whether the payload is compressed,
   // it may contain other semantics in the future. Value of 1 indicates that the
@@ -134,8 +135,8 @@ message Message {
   bytes data = 3;
 }
 
-// A list of metadata pairs, used in the payload of REQUEST_HEADERS,
-// RESPONSE_HEADERS and STATUS_TRAILERS.
+// A list of metadata pairs, used in the payload of CLIENT_HEADER,
+// SERVER_HEADER and SERVER_TRAILER.
 // Implementations may omit some entries to honor the header limits
 // of GRPC_BINARY_LOG_CONFIG.
 // 
