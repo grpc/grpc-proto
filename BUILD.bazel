@@ -43,6 +43,12 @@ proto_library(
 )
 
 proto_library(
+    name = "report_qps_scenario_service_proto",
+    srcs = ["grpc/testing/report_qps_scenario_service.proto"],
+    deps = [":control_proto"],
+)
+
+proto_library(
     name = "worker_service_proto",
     srcs = [
         "grpc/testing/worker_service.proto",
