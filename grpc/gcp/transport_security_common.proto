@@ -19,7 +19,7 @@ syntax = "proto3";
 
 package grpc.gcp;
 
-option go_package = "google.golang.org/grpc/credentials/alts/core/proto/grpc_gcp";
+option go_package = "google.golang.org/grpc/credentials/alts/internal/proto/grpc_gcp";
 option java_multiple_files = true;
 option java_outer_classname = "TransportSecurityCommonProto";
 option java_package = "io.grpc.alts.internal";
