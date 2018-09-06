@@ -26,7 +26,7 @@ option java_outer_classname = "BinaryLogProto";
 
 // Log entry we store in binary logs
 message GrpcLogEntry {
-  // Enumerates the type of logs
+  // Enumerates the type of logs (deprecated)
   enum Type {
     UNKNOWN_TYPE = 0;
     SEND_INITIAL_METADATA = 1;
@@ -35,7 +35,30 @@ message GrpcLogEntry {
     RECV_INITIAL_METADATA = 4;
     RECV_TRAILING_METADATA = 5;
     RECV_MESSAGE = 6;
-  };
+  }
+
+  // Enumerates the type of event
+  enum EventType {
+    EVENT_TYPE_UNKNOWN = 0;
+    // Headers sent from client to server
+    EVENT_TYPE_CLIENT_HEADER = 1;
+    // Headers sent from server to client
+    EVENT_TYPE_SERVER_HEADER = 2;
+    // Message sent from client to server
+    EVENT_TYPE_CLIENT_MESSAGE = 3;
+    // message sent from server to client
+    EVENT_TYPE_SERVER_MESSAGE = 4;
+    // Signal that client is done sending
+    EVENT_TYPE_CLIENT_HALF_CLOSE = 5;
+    // Trailers sent from server to client.
+    // On client side, this is the last network event.
+    // On server side, a EVENT_TYPE_CANCEL can still happen after this.
+    EVENT_TYPE_SERVER_TRAILER = 6;
+    // Signal that the RPC should be cancelled
+    EVENT_TYPE_CANCEL = 7;
+    // A special marker to indicate that the RPC is done.
+    EVENT_TYPE_END_MARKER = 8;
+  }
 
   // Enumerates the entity that generates the log entry
   enum Logger {
@@ -44,7 +67,7 @@ message GrpcLogEntry {
     SERVER = 2;
   }
 
-  Type type = 1;      // One of the above Type enum
+  Type type = 1 [deprecated = true];  // Deprecated do not use
   Logger logger = 2;  // One of the above Logger enum
 
   // Uniquely identifies a call. Each call may have several log entries, they
@@ -54,29 +77,26 @@ message GrpcLogEntry {
   // The logger uses one of the following fields to record the payload,
   // according to the type of the log entry.
   oneof payload {
-    // Used by {SEND,RECV}_INITIAL_METADATA and
-    // {SEND,RECV}_TRAILING_METADATA. This contains only the metadata
+    // Used by EVENT_TYPE_CLIENT_HEADER, EVENT_TYPE_SERVER_HEADER and
+    // EVENT_TYPE_SERVER_TRAILER. This contains only the metadata
     // from the application.
     Metadata metadata = 4;
-    // Used by {SEND,RECV}_MESSAGE
+    // Used by EVENT_TYPE_CLIENT_MESSAGE, EVENT_TYPE_SERVER_MESSAGE
     Message message = 5;
   }
 
-  // Peer address information, will only be recorded in SEND_INITIAL_METADATA
-  // and RECV_INITIAL_METADATA entries.
+  // Peer address information, will only be recorded in
+  // EVENT_TYPE_CLIENT_HEADER or EVENT_TYPE_SERVER_HEADER
   Peer peer = 6;
 
   // true if payload does not represent the full message or metadata.
   bool truncated = 7;
 
-  // The method name. Logged for the first entry:
-  // RECV_INITIAL_METADATA for server side or
-  // SEND_INITIAL_METADATA for client side.
+  // The method name. Logged for EVENT_TYPE_CLIENT_HEADER
   string method_name = 8;
 
   // status_code and status_message:
-  // Only present for SEND_TRAILING_METADATA on server side or
-  // RECV_TRAILING_METADATA on client side.
+  // Only present for EVENT_TYPE_SERVER_TRAILER.
   uint32 status_code = 9;
 
   // An original status message before any transport specific
@@ -95,9 +115,12 @@ message GrpcLogEntry {
   // this field is to detect missing entries in environments where
   // durability or ordering is not guaranteed.
   uint32 sequence_id_within_call = 13;
+
+  // Enumerates the type of logs
+  EventType event_type = 14;
 };
 
-// Message payload, used by REQUEST and RESPONSE
+// Message payload, used by CLIENT_MESSAGE and SERVER_MESSAGE
 message Message {
   // This flag is currently used to indicate whether the payload is compressed,
   // it may contain other semantics in the future. Value of 1 indicates that the
@@ -112,8 +135,8 @@ message Message {
   bytes data = 3;
 }
 
-// A list of metadata pairs, used in the payload of CLIENT_INIT_METADATA,
-// SERVER_INIT_METADATA and TRAILING_METADATA
+// A list of metadata pairs, used in the payload of CLIENT_HEADER,
+// SERVER_HEADER and SERVER_TRAILER.
 // Implementations may omit some entries to honor the header limits
 // of GRPC_BINARY_LOG_CONFIG.
 // 
