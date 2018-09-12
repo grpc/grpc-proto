@@ -19,18 +19,20 @@ syntax = "proto3";
 
 package grpc.testing;
 
-// TODO(dgq): Go back to using well-known types once
-// https://github.com/grpc/grpc/issues/6980 has been fixed.
-// import "google/protobuf/wrappers.proto";
-message BoolValue {
-  // The bool value.
-  bool value = 1;
-}
+option java_package = "io.grpc.testing.integration";
+
+import "google/protobuf/wrappers.proto";
 
 // The type of payload that should be returned.
 enum PayloadType {
   // Compressable text format.
   COMPRESSABLE = 0;
+
+  // Uncompressable binary format.
+  UNCOMPRESSABLE = 1;
+
+  // Randomly chosen from all other formats defined in this enum.
+  RANDOM = 2;
 }
 
 // A block of data, to simply increase gRPC message size.
@@ -70,13 +72,13 @@ message SimpleRequest {
   // "nullable" in order to interoperate seamlessly with clients not able to
   // implement the full compression tests by introspecting the call to verify
   // the response's compression status.
-  BoolValue response_compressed = 6;
+  google.protobuf.BoolValue response_compressed = 6;
 
   // Whether server should return a given status
   EchoStatus response_status = 7;
 
   // Whether the server should expect this request to be compressed.
-  BoolValue expect_compressed = 8;
+  google.protobuf.BoolValue expect_compressed = 8;
 }
 
 // Unary response, as configured by the request.
@@ -90,6 +92,10 @@ message SimpleResponse {
   string oauth_scope = 3;
 }
 
+message SimpleContext {
+  string value = 1;
+}
+
 // Client-streaming request.
 message StreamingInputCallRequest {
   // Optional input payload sent along with the request.
@@ -99,7 +105,7 @@ message StreamingInputCallRequest {
   // is "nullable" in order to interoperate seamlessly with servers not able to
   // implement the full compression tests by introspecting the call to verify
   // the request's compression status.
-  BoolValue expect_compressed = 2;
+  google.protobuf.BoolValue expect_compressed = 2;
 
   // Not expecting any payload from the response.
 }
@@ -123,7 +129,7 @@ message ResponseParameters {
   // "nullable" in order to interoperate seamlessly with clients not able to
   // implement the full compression tests by introspecting the call to verify
   // the response's compression status.
-  BoolValue compressed = 3;
+  google.protobuf.BoolValue compressed = 3;
 }
 
 // Server-streaming request.

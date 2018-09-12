@@ -24,6 +24,7 @@ proto_library(
 proto_library(
     name = "messages_proto",
     srcs = ["grpc/testing/messages.proto"],
+    deps = ["@com_google_protobuf//:wrappers_proto"],
 )
 
 proto_library(
@@ -109,6 +110,16 @@ proto_library(
     name = "reflection_proto",
     srcs = ["grpc/reflection/v1/reflection.proto"],
     visibility = ["//visibility:public"],
+)
+
+proto_library(
+    name = "test_proto",
+    srcs = ["grpc/testing/test.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":messages_proto",
+        "@com_google_protobuf//:empty_proto",
+    ],
 )
 
 # Deprecated: do not use
