@@ -16,7 +16,8 @@
 
 // IMPORTANT NOTE:
 // This proto was never stabilized, and is now deprecated.
-// The released proto can be found at: grpc/binlog/v1/binarylog.proto
+// The released proto can be found at:
+// https://github.com/grpc/grpc-proto/blob/master/grpc/binlog/v1/binarylog.proto
 
 syntax = "proto3";
 
