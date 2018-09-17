@@ -14,6 +14,10 @@
 // limitations under the License.
 // Service exported by server reflection
 
+// IMPORTANT NOTE:
+// This proto was never stabilized, and is now deprecated.
+// The released proto can be found at: binlog/v1/binarylog.proto
+
 syntax = "proto3";
 
 package grpc.binarylog.v1alpha;
