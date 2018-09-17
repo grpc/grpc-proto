@@ -23,6 +23,7 @@ package grpc.binarylog.v1;
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
+option go_package = "google.golang.org/grpc/binlog/grpc_binlog_v1";
 option java_multiple_files = true;
 option java_package = "io.grpc.binarylog.v1";
 option java_outer_classname = "BinaryLogProto";
