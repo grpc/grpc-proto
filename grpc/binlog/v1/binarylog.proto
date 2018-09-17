@@ -127,7 +127,6 @@ message ClientHeader {
 
   // the RPC timeout
   google.protobuf.Duration timeout = 4;
-
 }
 
 message ServerHeader {
