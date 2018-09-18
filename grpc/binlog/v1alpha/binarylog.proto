@@ -14,6 +14,10 @@
 // limitations under the License.
 // Service exported by server reflection
 
+// IMPORTANT NOTE:
+// This proto was never stabilized, and is now deprecated.
+// The released proto can be found at: grpc/binlog/v1/binarylog.proto
+
 syntax = "proto3";
 
 package grpc.binarylog.v1alpha;
@@ -44,12 +48,12 @@ message GrpcLogEntry {
     SERVER = 2;
   }
 
-  Type type = 1;      // One of the above Type enum
-  Logger logger = 2;  // One of the above Logger enum
+  Type type = 1 [deprecated = true];      // One of the above Type enum
+  Logger logger = 2 [deprecated = true];  // One of the above Logger enum
 
   // Uniquely identifies a call. Each call may have several log entries, they
   // will share the same call_id. 128 bits split into 2 64-bit parts.
-  Uint128 call_id = 3;
+  Uint128 call_id = 3 [deprecated = true];
 
   // The logger uses one of the following fields to record the payload,
   // according to the type of the log entry.
@@ -57,44 +61,44 @@ message GrpcLogEntry {
     // Used by {SEND,RECV}_INITIAL_METADATA and
     // {SEND,RECV}_TRAILING_METADATA. This contains only the metadata
     // from the application.
-    Metadata metadata = 4;
+    Metadata metadata = 4 [deprecated = true];
     // Used by {SEND,RECV}_MESSAGE
-    Message message = 5;
+    Message message = 5 [deprecated = true];
   }
 
   // Peer address information, will only be recorded in SEND_INITIAL_METADATA
   // and RECV_INITIAL_METADATA entries.
-  Peer peer = 6;
+  Peer peer = 6 [deprecated = true];
 
   // true if payload does not represent the full message or metadata.
-  bool truncated = 7;
+  bool truncated = 7 [deprecated = true];
 
   // The method name. Logged for the first entry:
   // RECV_INITIAL_METADATA for server side or
   // SEND_INITIAL_METADATA for client side.
-  string method_name = 8;
+  string method_name = 8 [deprecated = true];
 
   // status_code and status_message:
   // Only present for SEND_TRAILING_METADATA on server side or
   // RECV_TRAILING_METADATA on client side.
-  uint32 status_code = 9;
+  uint32 status_code = 9 [deprecated = true];
 
   // An original status message before any transport specific
   // encoding.
-  string status_message = 10;
+  string status_message = 10 [deprecated = true];
 
   // The value of the 'grpc-status-details-bin' metadata key. If
   // present, this is always an encoded 'google.rpc.Status' message.
-  bytes status_details = 11;
+  bytes status_details = 11 [deprecated = true];
 
   // the RPC timeout
-  google.protobuf.Duration timeout = 12;
+  google.protobuf.Duration timeout = 12 [deprecated = true];
 
   // The entry sequence id for this call. The first GrpcLogEntry has a
   // value of 1, to disambiguate from an unset value. The purpose of
   // this field is to detect missing entries in environments where
   // durability or ordering is not guaranteed.
-  uint32 sequence_id_within_call = 13;
+  uint32 sequence_id_within_call = 13 [deprecated = true];
 };
 
 // Message payload, used by REQUEST and RESPONSE
@@ -104,12 +108,12 @@ message Message {
   // binary octet sequence of Message is compressed using the mechanism declared
   // by the Message-Encoding header. A value of 0 indicates that no encoding of
   // Message bytes has occurred.
-  uint32 flags = 1; // TODO(zpencer): this is changed because there is no uint8
+  uint32 flags = 1 [deprecated = true]; // TODO(zpencer): this is changed because there is no uint8
   // Length of the message. It may not be the same as the length of the
   // data field, as the logging payload can be truncated or omitted.
-  uint32 length = 2;
+  uint32 length = 2 [deprecated = true];
   // May be truncated or omitted.
-  bytes data = 3;
+  bytes data = 3 [deprecated = true];
 }
 
 // A list of metadata pairs, used in the payload of CLIENT_INIT_METADATA,
@@ -125,13 +129,13 @@ message Message {
 //   ':path', ':authority', 'content-encoding', 'user-agent', 'te', etc
 // - entries added for call credentials
 message Metadata {
-  repeated MetadataEntry entry = 1;
+  repeated MetadataEntry entry = 1 [deprecated = true];
 }
 
 // A metadata key value pair
 message MetadataEntry {
-  bytes key = 1;
-  bytes value = 2;
+  bytes key = 1 [deprecated = true];
+  bytes value = 2 [deprecated = true];
 }
 
 // Peer information
@@ -146,15 +150,15 @@ message Peer {
     // address is UDS string
     PEER_UNIX = 3;
   };
-  PeerType peer_type = 1;
-  bytes peer = 2; // will be removed: do not use
-  string address = 3;
+  PeerType peer_type = 1 [deprecated = true];
+  bytes peer = 2 [deprecated = true]; // will be removed: do not use
+  string address = 3 [deprecated = true];
   // only for PEER_IPV4 and PEER_IPV6
-  uint32 ip_port = 4;
+  uint32 ip_port = 4 [deprecated = true];
 }
 
 // Used to record call_id.
 message Uint128 {
-  fixed64 high = 1;
-  fixed64 low = 2;
+  fixed64 high = 1 [deprecated = true];
+  fixed64 low = 2 [deprecated = true];
 };
