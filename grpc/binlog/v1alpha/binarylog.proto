@@ -34,11 +34,24 @@ message GrpcLogEntry {
   enum Type {
     UNKNOWN_TYPE = 0;
     SEND_INITIAL_METADATA = 1;
+    // On server side, a SERVER_CANCEL can still happen after sending
+    // trailers.
+    // On client side, this is means the client has half closed.
     SEND_TRAILING_METADATA = 2;
     SEND_MESSAGE = 3;
     RECV_INITIAL_METADATA = 4;
+    // On server side, this event means the client has half-closed.
+    // On client side, this is means the RPC has now ended.
     RECV_TRAILING_METADATA = 5;
     RECV_MESSAGE = 6;
+    // The RPC is cancelled.
+    CANCEL = 7;
+    // Server side only. This means the RPC has now ended. On server
+    // side, SEND_TRAILING_METADATA is not necessarily the end of the
+    // RPC, because a SERVER_CANCEL can still happen. A SERVER_END
+    // marks the end of the RPC. This is not needed for client side
+    // because RECV_TRAILING_METADATA is always the last entry.
+    SERVER_END = 9;
   };
 
   // Enumerates the entity that generates the log entry
