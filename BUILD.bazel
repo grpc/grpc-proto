@@ -110,3 +110,9 @@ proto_library(
     srcs = ["grpc/reflection/v1/reflection.proto"],
     visibility = ["//visibility:public"],
 )
+
+# Deprecated: do not use
+proto_library(
+    name = "reflection_proto_deprecated",
+    srcs = ["grpc/reflection/v1alpha/reflection.proto"],
+)
