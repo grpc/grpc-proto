@@ -435,9 +435,14 @@ service Channelz {
 }
 
 message GetTopChannelsRequest {
-  // start_channel_id indicates that only channels at or above this id should be
+  // start_channel_id indicates that only channels above this id should be
   // included in the results.
   int64 start_channel_id = 1;
+
+  // If non-zero, the server will return a page of results whose
+  // cardinality is equal to or less than this value. If zero, the
+  // server will choose a reasonable page size.
+  uint32 limit = 2;
 }
 
 message GetTopChannelsResponse {
@@ -451,9 +456,14 @@ message GetTopChannelsResponse {
 }
 
 message GetServersRequest {
-  // start_server_id indicates that only servers at or above this id should be
+  // start_server_id indicates that only servers above this id should be
   // included in the results.
   int64 start_server_id = 1;
+
+  // If non-zero, the server will return a page of results whose
+  // cardinality is equal to or less than this value. If zero, the
+  // server will choose a reasonable page size.
+  uint32 limit = 2;
 }
 
 message GetServersResponse {
@@ -468,9 +478,14 @@ message GetServersResponse {
 
 message GetServerSocketsRequest {
   int64 server_id = 1;
-  // start_socket_id indicates that only sockets at or above this id should be
+  // start_socket_id indicates that only sockets above this id should be
   // included in the results.
   int64 start_socket_id = 2;
+
+  // If non-zero, the server will return a page of results whose
+  // cardinality is equal to or less than this value. If zero, the
+  // server will choose a reasonable page size.
+  uint32 limit = 3;
 }
 
 message GetServerSocketsResponse {
