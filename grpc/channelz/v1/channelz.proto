@@ -177,6 +177,7 @@ message SubchannelRef {
 
 // SocketRef is a reference to a Socket.
 message SocketRef {
+  // The globally unique id for this socket.  Must be a positive number.
   int64 socket_id = 3;
   // An optional name associated with the socket.
   string name = 4;
