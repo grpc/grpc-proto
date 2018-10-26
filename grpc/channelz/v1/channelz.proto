@@ -234,9 +234,8 @@ message Socket {
   Address local = 3;
   // The remote bound address.  May be absent.
   Address remote = 4;
-  // Security details for this socket.  May be absent if not available, if
-  // there is no security on the socket, or if 'summary' is set on
-  // GetSocketRequest.
+  // Security details for this socket.  May be absent if not available, or
+  // there is no security on the socket.
   Security security = 5;
 
   // Optional, represents the name of the remote endpoint, if different than
