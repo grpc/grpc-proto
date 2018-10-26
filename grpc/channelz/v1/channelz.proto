@@ -438,7 +438,7 @@ service Channelz {
 message GetTopChannelsRequest {
   // start_channel_id indicates that only channels at or above this id should be
   // included in the results.
-  // To request the first page, this must be set to 0. To request
+  // To request the first page, this should be set to 0. To request
   // subsequent pages, the client generates this value by adding 1 to
   // the highest seen result ID.
   int64 start_channel_id = 1;
