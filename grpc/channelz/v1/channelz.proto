@@ -446,7 +446,7 @@ message GetTopChannelsRequest {
   // If non-zero, the server will return a page of results containing
   // at most this many items. If zero, the server will choose a
   // reasonable page size.  Must never be negative.
-  int32 max_results = 2;
+  int64 max_results = 2;
 }
 
 message GetTopChannelsResponse {
@@ -471,7 +471,7 @@ message GetServersRequest {
   // If non-zero, the server will return a page of results containing
   // at most this many items. If zero, the server will choose a
   // reasonable page size.  Must never be negative.
-  int32 max_results = 2;
+  int64 max_results = 2;
 }
 
 message GetServersResponse {
@@ -497,7 +497,7 @@ message GetServerSocketsRequest {
   // If non-zero, the server will return a page of results containing
   // at most this many items. If zero, the server will choose a
   // reasonable page size.  Must never be negative.
-  int32 max_results = 3;
+  int64 max_results = 3;
 }
 
 message GetServerSocketsResponse {
