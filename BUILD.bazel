@@ -111,6 +111,22 @@ proto_library(
     visibility = ["//visibility:public"],
 )
 
+proto_library(
+    name = "test_proto",
+    srcs = ["grpc/testing/test.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":empty_proto",
+        ":messages_proto",
+    ],
+)
+
+proto_library(
+    name = "empty_proto",
+    srcs = ["grpc/testing/empty.proto"],
+    visibility = ["//visibility:public"],
+)
+
 # Deprecated: do not use
 proto_library(
     name = "reflection_proto_deprecated",
