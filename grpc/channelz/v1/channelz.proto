@@ -289,7 +289,8 @@ message SocketData {
   // include stream level or TCP level flow control info.
   google.protobuf.Int64Value  remote_flow_control_window = 12;
 
-  // Socket options set on this socket.  May be absent.
+  // Socket options set on this socket.  May be absent if 'summary' is set
+  // on GetSocketRequest.
   repeated SocketOption option = 13;
 }
 
@@ -549,6 +550,11 @@ message GetSubchannelResponse {
 message GetSocketRequest {
   // socket_id is the identifier of the specific socket to get.
   int64 socket_id = 1;
+
+  // If true, the response will contain only high level information
+  // that is inexpensive to obtain. Fields thay may be omitted are
+  // documented.
+  bool summary = 2;
 }
 
 message GetSocketResponse {
