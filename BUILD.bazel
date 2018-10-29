@@ -124,6 +124,7 @@ proto_library(
 proto_library(
     name = "empty_proto",
     srcs = ["grpc/testing/empty.proto"],
+    visibility = ["//visibility:public"],
 )
 
 # Deprecated: do not use
