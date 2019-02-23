@@ -70,10 +70,22 @@ proto_library(
     ],
 )
 
+java_proto_library(
+    name = "channelz_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":channelz_proto"],
+)
+
 proto_library(
     name = "health_proto",
     srcs = ["grpc/health/v1/health.proto"],
     visibility = ["//visibility:public"],
+)
+
+java_proto_library(
+    name = "health_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":health_proto"],
 )
 
 proto_library(
@@ -86,6 +98,12 @@ proto_library(
     visibility = ["//visibility:public"],
 )
 
+java_proto_library(
+    name = "alts_handshaker_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":alts_handshaker_proto"],
+)
+
 proto_library(
     name = "binarylog_proto",
     srcs = ["grpc/binlog/v1alpha/binarylog.proto"],
@@ -93,6 +111,12 @@ proto_library(
     deps = [
         "@com_google_protobuf//:duration_proto",
     ],
+)
+
+java_proto_library(
+    name = "binarylog_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":binarylog_proto"],
 )
 
 proto_library(
@@ -105,10 +129,22 @@ proto_library(
     ],
 )
 
+java_proto_library(
+    name = "grpclb_load_balancer_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":grpclb_load_balancer_proto"],
+)
+
 proto_library(
     name = "reflection_proto",
     srcs = ["grpc/reflection/v1/reflection.proto"],
     visibility = ["//visibility:public"],
+)
+
+java_proto_library(
+    name = "reflection_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":reflection_proto"],
 )
 
 # Deprecated: do not use
