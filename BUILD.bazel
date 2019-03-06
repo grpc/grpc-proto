@@ -152,3 +152,9 @@ proto_library(
     name = "reflection_proto_deprecated",
     srcs = ["grpc/reflection/v1alpha/reflection.proto"],
 )
+
+# Deprecated: do not use
+java_proto_library(
+    name = "reflection_java_proto_deprecated",
+    deps = [":reflection_proto_deprecated"],
+)
