@@ -150,6 +150,7 @@ java_proto_library(
 # Deprecated: do not use
 proto_library(
     name = "reflection_proto_deprecated",
+    visibility = ["//visibility:public"],
     srcs = ["grpc/reflection/v1alpha/reflection.proto"],
 )
 
