@@ -156,5 +156,6 @@ proto_library(
 # Deprecated: do not use
 java_proto_library(
     name = "reflection_java_proto_deprecated",
+    visibility = ["//visibility:public"],
     deps = [":reflection_proto_deprecated"],
 )
