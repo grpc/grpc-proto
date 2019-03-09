@@ -151,10 +151,15 @@ java_proto_library(
 proto_library(
     name = "reflection_proto_deprecated",
     srcs = ["grpc/reflection/v1alpha/reflection.proto"],
+    deprecation = "Use :reflection_proto instead",
+    visibility = ["//visibility:public"],
 )
 
 # Deprecated: do not use
 java_proto_library(
     name = "reflection_java_proto_deprecated",
+    deprecation = "Use :reflection_java_proto instead",
+    visibility = ["//visibility:public"],
     deps = [":reflection_proto_deprecated"],
 )
+
