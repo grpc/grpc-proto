@@ -106,7 +106,7 @@ java_proto_library(
 
 proto_library(
     name = "binarylog_proto",
-    srcs = ["grpc/binlog/v1alpha/binarylog.proto"],
+    srcs = ["grpc/binlog/v1/binarylog.proto"],
     visibility = ["//visibility:public"],
     deps = [
         "@com_google_protobuf//:duration_proto",
