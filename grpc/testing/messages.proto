@@ -56,11 +56,11 @@ message EchoStatus {
 // how this detection is done is context and server dependant.
 enum GrpclbRouteType {
   // Server didn't detect the route that a client took to reach it.
-  UNKNOWN = 0;
+  GRPCLB_ROUTE_TYPE_UNKNOWN = 0;
   // Indicates that a client reached a server via gRPCLB fallback.
-  FALLBACK = 1;
+  GRPCLB_ROUTE_TYPE_FALLBACK = 1;
   // Indicates that a client reached a server as a gRPCLB-given backend.
-  BACKEND = 2;
+  GRPCLB_ROUTE_TYPE_BACKEND = 2;
 }
 
 // Unary request.
