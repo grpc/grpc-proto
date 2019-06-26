@@ -228,16 +228,25 @@ message LoadBalancingConfig {
     // a round_robin policy to pick the backend within that cluster), its
     // configuration message may include a nested instance of the
     // LoadBalancingConfig message to configure the nested LB policy.
+
     PickFirstConfig pick_first = 4 [json_name = "pick_first"];
+
     RoundRobinConfig round_robin = 1 [json_name = "round_robin"];
-    // xds field should not be used unless people know what they're
-    // doing.
-    XdsConfig xds = 2;
+
+    // gRPC lookaside load balancing.
+    // This will eventually be deprecated by the new xDS-based local
+    // balancing policy.
     GrpcLbConfig grpclb = 3;
-    // xds_experimental field should only be used for testing the xds
-    // lbpolicy on the gRPC client.
-    // TODO(rekarthik): remove this field after xds migration is done.
+
+    // EXPERIMENTAL -- DO NOT USE
+    // xDS-based load balancing.
+    // The policy is known as xds_experimental while it is under development.
+    // It will be renamed to xds once it is ready for public use.
+    XdsConfig xds = 2;
+    // TODO(rekarthik): Deprecate this field after the xds policy
+    // is ready for public use.
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental"];
+
     // Next available ID: 6
   }
 }
