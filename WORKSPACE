@@ -23,3 +23,12 @@ http_archive(
     strip_prefix = "protobuf-3.6.1.2",
     urls = ["https://github.com/google/protobuf/archive/v3.6.1.2.zip"],
 )
+
+http_archive(
+    name = "com_google_googleapis",
+    urls = [
+        "https://github.com/googleapis/googleapis/archive/43a324913190da118e1c3c1a89ef6cfc47c5caf3.zip",
+    ],
+    sha256 = "d1860c5e806c0cf04d6d0806ab6f43f27c9d9a47cd76429f49f8a37750effccf",
+    strip_prefix = "googleapis-43a324913190da118e1c3c1a89ef6cfc47c5caf3",
+)

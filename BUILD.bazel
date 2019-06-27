@@ -140,6 +140,11 @@ proto_library(
     name = "service_config_proto",
     srcs = ["grpc/service_config/service_config.proto"],
     visibility = ["//visibility:public"],
+    deps = [
+        "@com_google_protobuf//:duration_proto",
+        "@com_google_protobuf//:timestamp_proto",
+        "@com_google_googleapis//google/rpc:code_proto",
+    ],
 )
 
 java_proto_library(
