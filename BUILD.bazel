@@ -77,6 +77,23 @@ java_proto_library(
 )
 
 proto_library(
+    name = "service_config_proto",
+    srcs = ["grpc/service_config/service_config.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_google_protobuf//:duration_proto",
+        "@com_google_protobuf//:wrappers_proto",
+        "@com_google_googleapis//google/rpc:code_proto",
+    ],
+)
+
+java_proto_library(
+    name = "service_config_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":service_config_proto"],
+)
+
+proto_library(
     name = "health_proto",
     srcs = ["grpc/health/v1/health.proto"],
     visibility = ["//visibility:public"],
