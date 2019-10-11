@@ -189,10 +189,15 @@ message GrpcLbConfig {
   repeated LoadBalancingConfig child_policy = 1;
 }
 
+// Configuration for the cds LB policy.
+message CdsConfig {
+  string cluster = 1;  // Required.
+}
+
 // Configuration for xds LB policy.
 message XdsConfig {
-  // Required.  Name of balancer to connect to.
-  string balancer_name = 1;
+  // Name of balancer to connect to.
+  string balancer_name = 1 [deprecated = true];
   // Optional.  What LB policy to use for intra-locality routing.
   // If unset, will use whatever algorithm is specified by the balancer.
   // Multiple LB policies can be specified; clients will iterate through
@@ -203,6 +208,14 @@ message XdsConfig {
   // Multiple LB policies can be specified; clients will iterate through
   // the list in order and stop at the first policy that they support.
   repeated LoadBalancingConfig fallback_policy = 3;
+  // Optional.  Name to use in EDS query.  If not present, defaults to
+  // the server name from the target URI.
+  string eds_service_name = 4;
+  // LRS server to send load reports to.
+  // If not present, load reporting will be disabled.
+  // If set to the empty string, load reporting will be sent to the same
+  // server that we obtained CDS data from.
+  google.protobuf.StringValue lrs_load_reporting_server_name = 5;
 }
 
 // Selects LB policy and provides corresponding configuration.
@@ -242,12 +255,13 @@ message LoadBalancingConfig {
     // xDS-based load balancing.
     // The policy is known as xds_experimental while it is under development.
     // It will be renamed to xds once it is ready for public use.
+    CdsConfig cds = 6;
     XdsConfig xds = 2;
     // TODO(rekarthik): Deprecate this field after the xds policy
     // is ready for public use.
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental"];
 
-    // Next available ID: 6
+    // Next available ID: 7
   }
 }
 
