@@ -165,3 +165,28 @@ java_proto_library(
     visibility = ["//visibility:public"],
     deps = [":reflection_proto_deprecated"],
 )
+
+proto_library(
+    name = "rls_proto",
+    srcs = ["grpc/lookup/v1/rls.proto"],
+    visibility = ["//visibility:public"],
+)
+
+java_proto_library(
+    name = "rls_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":rls_proto"],
+)
+
+proto_library(
+    name = "rls_config_proto",
+    srcs = ["grpc/lookup/v1/rls_config.proto"],
+    visibility = ["//visibility:public"],
+    deps = ["@com_google_protobuf//:duration_proto"],
+)
+
+java_proto_library(
+    name = "rls_config_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":rls_config_proto"],
+)
