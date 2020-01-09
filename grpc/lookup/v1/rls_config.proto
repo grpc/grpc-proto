@@ -14,13 +14,13 @@
 
 syntax = "proto3";
 
-package grpc.lookup.v1alpha1;
+package grpc.lookup.v1;
 
 import "google/protobuf/duration.proto";
 
-option go_package = "google.golang.org/grpc/lookup/grpc_lookup_v1alpha1";
+option go_package = "google.golang.org/grpc/lookup/grpc_lookup_v1";
 option java_multiple_files = true;
-option java_package = "io.grpc.lookup.v1alpha1";
+option java_package = "io.grpc.lookup.v1";
 option java_outer_classname = "RlsConfigProto";
 
 // Extract a key based on a given name (e.g. header name or query parameter

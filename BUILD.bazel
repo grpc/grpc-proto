@@ -168,7 +168,7 @@ java_proto_library(
 
 proto_library(
     name = "rls_proto",
-    srcs = ["grpc/lookup/v1alpha1/rls.proto"],
+    srcs = ["grpc/lookup/v1/rls.proto"],
     visibility = ["//visibility:public"],
 )
 
@@ -180,7 +180,7 @@ java_proto_library(
 
 proto_library(
     name = "rls_config_proto",
-    srcs = ["grpc/lookup/v1alpha1/rls_config.proto"],
+    srcs = ["grpc/lookup/v1/rls_config.proto"],
     visibility = ["//visibility:public"],
     deps = ["@com_google_protobuf//:duration_proto"],
 )
