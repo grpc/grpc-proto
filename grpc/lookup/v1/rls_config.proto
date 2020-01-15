@@ -176,7 +176,7 @@ message RouteLookupConfig {
 
   // This is a list of all the possible targets that can be returned by the
   // lookup service.  If a target not on this list is returned, it will be
-  // treated the same as a target with no healthy backends.
+  // treated the same as an RPC error from the RLS.
   repeated string valid_targets = 8;
 
   // This value provides a default target to use if needed.  It will be used for
