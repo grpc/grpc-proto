@@ -187,9 +187,9 @@ message GrpcLbConfig {
   // Multiple LB policies can be specified; clients will iterate through
   // the list in order and stop at the first policy that they support.
   repeated LoadBalancingConfig child_policy = 1;
-  // Optional.  If specified, overrides the name of the target to be sent to
+  // Optional.  If specified, overrides the name of the service to be sent to
   // the balancer.
-  string target_name = 2;
+  string service_name = 2;
 }
 
 // Configuration for the cds LB policy.
