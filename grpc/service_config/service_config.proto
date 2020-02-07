@@ -41,8 +41,9 @@ message MethodConfig {
   // - Each name entry must be unique across the entire ClientConfig.
   // - If the 'method' field is empty, this MethodConfig specifies the defaults
   //   for all methods for the specified service.
-  // - If the 'service' field is empty, this MethodConfig specifies the default
-  //   for all methods (it's the default config).
+  // - If the 'service' field is empty, the 'method' field must be empty, and
+  //   this MethodConfig specifies the default for all methods (it's the default
+  //   config).
   //
   // For example, let's say that the service config contains the following
   // MethodConfig entries:
@@ -56,7 +57,7 @@ message MethodConfig {
   // it provides the default for all methods of MyService. AnotherService/Baz
   // will use the first entry, because it doesn't match the other two.
   //
-  // In JSON representation, "" the same as null, and no present. The followings
+  // In JSON representation, "" the same as null, and not present. The following
   // are the same:
   // - { "service": "s" }
   // - { "service": "s", "name": null }
