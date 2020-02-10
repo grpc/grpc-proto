@@ -38,15 +38,16 @@ option java_outer_classname = "ServiceConfigProto";
 message MethodConfig {
   // The names of the methods to which this configuration applies.
   // - MethodConfig without names (empty list) will be skipped.
-  // - Each name entry must be unique across the entire ClientConfig.
+  // - Each name entry must be unique across the entire ServiceConfig.
   // - If the 'method' field is empty, this MethodConfig specifies the defaults
   //   for all methods for the specified service.
   // - If the 'service' field is empty, the 'method' field must be empty, and
   //   this MethodConfig specifies the default for all methods (it's the default
   //   config).
   //
-  // For example, let's say that the service config contains the following
-  // MethodConfig entries:
+  // When determining which MethodConfig to use for a given RPC, the most
+  // specific match wins. For example, let's say that the service config
+  // contains the following MethodConfig entries:
   //
   // method_config { name { } ... }
   // method_config { name { service: "MyService" } ... }
@@ -236,9 +237,9 @@ message XdsConfig {
 // support.  This allows the service config to specify custom policies that may
 // not be known to all clients.
 //
-// - If the config for the first registered policy is invalid, the whole service
+// - If the config for the first supported policy is invalid, the whole service
 //   config is invalid.
-// - If the list doesn't contain any registered policy, the whole service config
+// - If the list doesn't contain any supported policy, the whole service config
 //   is invalid.
 message LoadBalancingConfig {
   // Exactly one LB policy may be configured.
