@@ -58,11 +58,11 @@ message MethodConfig {
   // it provides the default for all methods of MyService. AnotherService/Baz
   // will use the first entry, because it doesn't match the other two.
   //
-  // In JSON representation, "" the same as null, and not present. The following
-  // are the same:
+  // In JSON representation, value "", value `null`, and not present are the
+  // same. The following are the same Name:
   // - { "service": "s" }
-  // - { "service": "s", "name": null }
-  // - { "service": "s", "name": "" }
+  // - { "service": "s", "method": null }
+  // - { "service": "s", "method": "" }
   message Name {
     string service = 1;  // Required. Includes proto package name.
     string method = 2;
