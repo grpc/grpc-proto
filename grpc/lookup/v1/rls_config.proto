@@ -212,4 +212,11 @@ message RouteLookupConfig {
     ASYNC_LOOKUP_DEFAULT_TARGET_ON_MISS = 3;
   }
   RequestProcessingStrategy request_processing_strategy = 10;
+
+  // Set to true to run the RLS client in "dark launch" mode, where it will do
+  // all the regular RLS processing (caching, doing RPC to lookup service,
+  // monitoring, logging, etc) but will *not* modify the actual target.
+  // Setting this flag enables a backend service to understand how load will
+  // shift once RLS is fully enabled.
+  bool enable_dark_launch = 11;
 }
