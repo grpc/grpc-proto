@@ -27,3 +27,22 @@ http_archive(
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
+
+# Unfortunately the googleapis repo doesn't seem to be doing regular releases.
+# Their last and only one was on Sep 1, 2016. So, we need to pin to a
+# particular git commit, and this one was made on Feb 6, 2020.
+GOOGLEAPIS_GIT_SHA = "052b274138fce2be80f97b6dcb83ab343c7c8812"
+GOOGLEAPIS_SHA = "e31dc9f889bf53e001998d16385881b507c8cc1455bbe5618b16f0f8cb0fd46f"
+
+http_archive(
+    name = "com_google_googleapis",
+    sha256 = GOOGLEAPIS_SHA,
+    strip_prefix = "googleapis-" + GOOGLEAPIS_GIT_SHA,
+    urls = ["https://github.com/googleapis/googleapis/archive/" + GOOGLEAPIS_GIT_SHA + ".tar.gz"],
+)
+
+load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
+
+switched_rules_by_language(
+    name = "com_google_googleapis_imports",
+)

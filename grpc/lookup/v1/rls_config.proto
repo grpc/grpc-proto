@@ -54,7 +54,7 @@ message GrpcKeyBuilder {
 
   // Extract keys from all listed headers.
   // For gRPC, it is an error to specify "required_match" on the NameMatcher
-  // protos, and we ignore it if set.
+  // protos.
   repeated NameMatcher headers = 2;
 }
 
