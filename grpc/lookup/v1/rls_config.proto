@@ -179,11 +179,9 @@ message RouteLookupConfig {
   // treated the same as an RPC error from the RLS.
   repeated string valid_targets = 8;
 
-  // This value provides a default target to use if needed.  It will be used for
-  // request processing strategy SYNC_LOOKUP_DEFAULT_TARGET_ON_ERROR if RLS
-  // returns an error, or strategy ASYNC_LOOKUP_DEFAULT_TARGET_ON_MISS if RLS
-  // returns an error or there is a cache miss in the client.  It will also be
-  // used if there are no healthy backends for an RLS target.  Note that
+  // This value provides a default target to use if needed.  If nonempty
+  // (implies request processing strategy SYNC_LOOKUP_DEFAULT_TARGET_ON_ERROR
+  // is set), it will be used if RLS returns an error.  Note that
   // requests can be routed only to a subdomain of the original target,
   // e.g. "us_east_1.cloudbigtable.googleapis.com".
   string default_target = 9;
@@ -205,11 +203,7 @@ message RouteLookupConfig {
     // strict regional routing requirements should use this strategy.
     SYNC_LOOKUP_CLIENT_SEES_ERROR = 2;
 
-    // Query the RLS asynchronously but respond with the default target.  The
-    // target in the lookup response will then be cached and used for
-    // subsequent requests.  Services with strict latency requirements (but not
-    // strict regional routing requirements) should use this strategy.
-    ASYNC_LOOKUP_DEFAULT_TARGET_ON_MISS = 3;
+    reserved 3;
   }
   RequestProcessingStrategy request_processing_strategy = 10;
 }
