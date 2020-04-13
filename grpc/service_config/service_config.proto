@@ -190,6 +190,31 @@ message PickFirstConfig {}
 // Configuration for round_robin LB policy.
 message RoundRobinConfig {}
 
+// Configuration for priority LB policy.
+message PriorityLoadBalancingPolicyConfig {
+  // A map of name to child policy configuration.
+  // The names are used to allow the priority policy to update
+  // existing child policies instead of creating new ones every
+  // time it receives a config update.
+  message Child {
+    repeated LoadBalancingConfig config = 1;
+  }
+  map<string, Child> children = 1;
+
+  // A list of child names in decreasing priority order
+  // (i.e., first element is the highest priority).
+  repeated string priorities = 2;
+}
+
+// Configuration for weighted_target LB policy.
+message WeightedTargetLoadBalancingPolicyConfig {
+  message Target {
+    uint32 weight = 1;
+    repeated LoadBalancingConfig child_policy = 2;
+  }
+  map<string, Target> targets = 1;
+}
+
 // Configuration for grpclb LB policy.
 message GrpcLbConfig {
   // Optional.  What LB policy to use for routing between the backend
@@ -233,6 +258,62 @@ message XdsConfig {
   google.protobuf.StringValue lrs_load_reporting_server_name = 5;
 }
 
+// Configuration for eds LB policy.
+message EdsLoadBalancingPolicyConfig {
+  // Cluster name.  Required.
+  string cluster = 1;
+
+  // EDS service name, as returned in CDS.
+  // May be unset if not specified in CDS.
+  string eds_service_name = 2;
+
+  // Server to send load reports to.
+  // If unset, no load reporting is done.
+  // If set to empty string, load reporting will be sent to the same
+  // server as we are getting xds data from.
+  google.protobuf.StringValue lrs_load_reporting_server_name = 3;
+
+  // Locality-picking policy.
+  // This policy's config is expected to be in the format used
+  // by the weighted_target policy.  Note that the config should include
+  // an empty value for the "targets" field; that empty value will be
+  // replaced by one that is dynamically generated based on the EDS data.
+  // Optional; defaults to "weighted_target".
+  repeated LoadBalancingConfig locality_picking_policy = 4;
+
+  // Endpoint-picking policy.
+  // This will be configured as the policy for each child in the
+  // locality-policy's config.
+  // Optional; defaults to "round_robin".
+  repeated LoadBalancingConfig endpoint_picking_policy = 5;
+}
+
+// Configuration for lrs LB policy.
+message LrsLoadBalancingPolicyConfig {
+  // Cluster name.  Required.
+  string cluster_name = 1;
+
+  // EDS service name, as returned in CDS.
+  // May be unset if not specified in CDS.
+  string eds_service_name = 2;
+
+  // Server to send load reports to.  Required.
+  // If set to empty string, load reporting will be sent to the same
+  // server as we are getting xds data from.
+  string lrs_load_reporting_server_name = 3;
+
+  // The locality for which this policy will report load.  Required.
+  message Locality {
+    string region = 1;
+    string zone = 2;
+    string subzone = 3;
+  }
+  Locality locality = 4;
+
+  // Endpoint-picking policy.
+  repeated LoadBalancingConfig child_policy = 5;
+}
+
 // Selects LB policy and provides corresponding configuration.
 //
 // In general, all instances of this field should be repeated. Clients will
@@ -271,17 +352,23 @@ message LoadBalancingConfig {
     // balancing policy.
     GrpcLbConfig grpclb = 3;
 
+    PriorityLoadBalancingPolicyConfig priority = 9;
+    WeightedTargetLoadBalancingPolicyConfig weighted_target = 10;
+
     // EXPERIMENTAL -- DO NOT USE
     // xDS-based load balancing.
     // The policy is known as xds_experimental while it is under development.
     // It will be renamed to xds once it is ready for public use.
     CdsConfig cds = 6;
-    XdsConfig xds = 2;
+    EdsLoadBalancingPolicyConfig eds = 7;
+    LrsLoadBalancingPolicyConfig lrs = 8;
+    XdsConfig xds = 2 [deprecated = true];
     // TODO(rekarthik): Deprecate this field after the xds policy
     // is ready for public use.
-    XdsConfig xds_experimental = 5 [json_name = "xds_experimental"];
+    XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
+                                    deprecated = true];
 
-    // Next available ID: 7
+    // Next available ID: 11
   }
 }
 
