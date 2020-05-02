@@ -4,7 +4,7 @@ peripheral services around gRPC such as health checking, load balancing etc..
 
 ## Usage
 
-For Bazel users, it can included directly as an http_repository.
+For Bazel users, it can be included directly as an http_repository.
 
 For others it is expected the proto files will be copied to other gRPC
 repositories as needed (e.g., `grpc/grpc`, `grpc/grpc-go`, etc.). However, those
