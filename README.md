@@ -1,16 +1,15 @@
 # grpc-proto
-This repository contains the canonical common protocol definitions for
-peripheral services around gRPC such as health checking, load balancing etc..
+This repository contains the canonical versions of common protocol definitions
+for peripheral services around gRPC such as health checking and load balancing.
 
 ## Usage
 
-For Bazel users, it can be included directly as an http_repository.
+For Bazel users, it can be included directly as an `http_repository`.
 
-For others it is expected the proto files will be copied to other gRPC
-repositories as needed (e.g., `grpc/grpc`, `grpc/grpc-go`, etc.). However, those
-copies may not be modified directly; they should be byte-identical with the
-version of grpc-proto that was copied from. All changes should be merged in
-grpc-proto before appearing in another repository. This prevents forking the
+Non-Bazel users are expected to copy the proto files from this repo as needed.
+However, those copies should not be modified; they should be byte-identical with
+the version of grpc-proto that was copied from. Changes should be made to proto
+files in this repo before being recopied elsewhere. This prevents forking the
 proto and makes clear the "latest version" of the proto.
 
 Projects that copy the protos should defend against repo-specific modifications.
