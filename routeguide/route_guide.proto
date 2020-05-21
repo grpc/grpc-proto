@@ -11,6 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+// The canonical version of this proto can be found at
+// https://github.com/grpc/grpc-proto/blob/master/routeguide/route_guide.proto
 
 syntax = "proto3";
 
