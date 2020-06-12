@@ -1,0 +1,84 @@
+// Copyright 2020 The gRPC Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package grpc.tls.provider.meshca.v1;
+
+import "google/protobuf/duration.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "MeshCaProto";
+option java_package = "io.grpc.tls.provider.meshca.v1";
+
+// The Mesh CA provides certificates for GCP users and service accounts. The CA
+// will exchange an account credential, such as a service account key or OAuth
+// credential, for an X.509 certificate. The subject of the signed certificate
+// will match the identity of the authenticated requestor. The format of the
+// identity in the certificate is a SPIFFE SVID:
+//   spiffe://<identity namspace>/ns/<istio namespace>/sa/<kubernetes service
+//   account>
+// The Mesh CA infers the values of these three fields through workload identity
+// binding claims attached to the caller's request. See also:
+// https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+// The canonical definition of a SPIFFE SVID is available at:
+//  https://github.com/spiffe/spiffe/blob/master/standards/X509-SVID.md.
+//
+// Requests to the Mesh CA are first authenticated by OnePlatform. The CA relies
+// on OnePlatform to supply the identity of authenticated GCP user.
+//
+// Callers are responsible for generating a public/private keypair and for
+// creating a certificate signing request (CSR). The format of the CSR is
+// defined in RFC 2986. Prior to generating a signed certificate, the Mesh CA
+// will verify that:
+//   (a) the CSR is encoding in a permissible encoding format (specifically,
+//       PEM) and that the CSR is properly constructed (ie. adheres to RFC
+//       2986); and
+//   (b) the certificate signing request has a valid signature for the public
+//       key embedded in the CSR; and
+//   (c) that the type of the public key and its parameters meet minimum
+//       security requirements and are of a supported type.
+//
+// Any fields of the CSR not necessary to perform the above validation steps are
+// ignored by the Mesh CA.
+
+// Certificate request message.
+message MeshCertificateRequest {
+  // The request ID must be a valid UUID with the exception that zero UUID is
+  // not supported (00000000-0000-0000-0000-000000000000).
+  string request_id = 1;
+
+  // PEM-encoded certificate request.
+  string csr = 2;
+
+  // Requested certificate validity period.
+  google.protobuf.Duration validity = 3;
+
+  // Reserved 4.
+}
+
+// Certificate response message.
+message MeshCertificateResponse {
+  // PEM-encoded certificate chain.
+  // Leaf cert is element '0'. Root cert is element 'n-1'.
+  repeated string cert_chain = 1;
+}
+
+// Service for managing certificates issued by the Mesh CA.
+service MeshCertificateService {
+  // Using provided CSR, returns a signed certificate that represents an Istio
+  // workload identity.
+  rpc CreateCertificate(MeshCertificateRequest) returns (MeshCertificateResponse);
+}
+

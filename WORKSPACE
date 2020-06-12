@@ -32,6 +32,7 @@ protobuf_deps()
 # Their last and only one was on Sep 1, 2016. So, we need to pin to a
 # particular git commit, and this one was made on Feb 6, 2020.
 GOOGLEAPIS_GIT_SHA = "052b274138fce2be80f97b6dcb83ab343c7c8812"
+
 GOOGLEAPIS_SHA = "e31dc9f889bf53e001998d16385881b507c8cc1455bbe5618b16f0f8cb0fd46f"
 
 http_archive(
@@ -46,3 +47,35 @@ load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_languag
 switched_rules_by_language(
     name = "com_google_googleapis_imports",
 )
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "a82a352bffae6bee4e95f68a8d80a70e87f42c4741e6a448bec11998fcc82329",
+    urls = ["https://github.com/bazelbuild/rules_go/releases/download/0.18.5/rules_go-0.18.5.tar.gz"],
+)
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+http_archive(
+    name = "com_github_grpc_grpc",
+    sha256 = "727fae92372f0b6e68f969e2b200add7a87e1395055a72d6363cc82942f93000",
+    strip_prefix = "grpc-1.30.0-pre1",
+    urls = ["https://github.com/grpc/grpc/archive/v1.30.0-pre1.tar.gz"],
+)
+
+http_archive(
+    name = "envoy",
+    sha256 = "1b223ee37452d6143d316ddb1a83c27c13daff41dcbdf37899d597a396a6295e",
+    strip_prefix = "envoy-1.14.2",
+    urls = ["https://github.com/envoyproxy/envoy/archive/v1.14.2.tar.gz"],
+)
+
+load("@envoy//bazel:api_binding.bzl", "envoy_api_binding")
+
+envoy_api_binding()
+
+load("@envoy//bazel:api_repositories.bzl", "envoy_api_dependencies")
+
+envoy_api_dependencies()
