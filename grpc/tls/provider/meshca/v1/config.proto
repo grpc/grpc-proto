@@ -58,8 +58,8 @@ message GoogleMeshCaConfig {
   // 2048 bit keys will be used if left unspecified.
   uint32 key_size = 5;
 
-  // GCE zone where the workload is located.
+  // GCE location (region/zone) where the workload is located.
   // GCE/GKE Metadata Server will be contacted if left unspecified.
-  string gce_compute_zone = 6;
+  string location = 6;
 }
 

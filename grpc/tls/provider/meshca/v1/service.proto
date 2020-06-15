@@ -27,8 +27,7 @@ option java_package = "io.grpc.tls.provider.meshca.v1";
 // credential, for an X.509 certificate. The subject of the signed certificate
 // will match the identity of the authenticated requestor. The format of the
 // identity in the certificate is a SPIFFE SVID:
-//   spiffe://<identity namspace>/ns/<istio namespace>/sa/<kubernetes service
-//   account>
+//   spiffe://<identity namspace>/ns/<namespace>/sa/<k8s service account>
 // The Mesh CA infers the values of these three fields through workload identity
 // binding claims attached to the caller's request. See also:
 // https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
@@ -77,7 +76,7 @@ message MeshCertificateResponse {
 
 // Service for managing certificates issued by the Mesh CA.
 service MeshCertificateService {
-  // Using provided CSR, returns a signed certificate that represents an Istio
+  // Using provided CSR, returns a signed certificate that represents the
   // workload identity.
   rpc CreateCertificate(MeshCertificateRequest) returns (MeshCertificateResponse);
 }
