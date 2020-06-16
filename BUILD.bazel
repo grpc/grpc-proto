@@ -201,22 +201,3 @@ proto_library(
         "@com_google_protobuf//:wrappers_proto",
     ],
 )
-
-proto_library(
-    name = "meshca_service_proto",
-    srcs = ["grpc/tls/provider/meshca/v1/service.proto"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "@com_google_protobuf//:duration_proto",
-    ],
-)
-
-proto_library(
-    name = "meshca_config_proto",
-    srcs = ["grpc/tls/provider/meshca/v1/config.proto"],
-    visibility = ["//visibility:public"],
-    deps = [
-        "@com_google_protobuf//:duration_proto",
-        "@envoy_api//envoy/config/core/v3:pkg",
-    ],
-)
