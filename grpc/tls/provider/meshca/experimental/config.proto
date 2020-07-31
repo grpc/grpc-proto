@@ -14,6 +14,8 @@
 
 syntax = "proto3";
 
+// NOTE: This proto will very likely move to a different namespace and a
+// different git repo in the future.
 package grpc.tls.provider.meshca.experimental;
 
 import "envoy/config/core/v3/config_source.proto";
