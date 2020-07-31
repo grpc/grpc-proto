@@ -14,14 +14,14 @@
 
 syntax = "proto3";
 
-package grpc.tls.provider.meshca.v1;
+package grpc.tls.provider.meshca.experimental;
 
 import "envoy/config/core/v3/config_source.proto";
 import "google/protobuf/duration.proto";
 
 option java_outer_classname = "MeshCaConfigProto";
 option java_multiple_files = true;
-option java_package = "io.grpc.tls.provider.meshca.v1";
+option java_package = "io.grpc.tls.provider.meshca.experimental";
 
 // GoogleMeshCaConfig contains all configuration parameters required by the
 // MeshCA CertificateProvider plugin implementation.
@@ -38,27 +38,33 @@ message GoogleMeshCaConfig {
   // <envoy_api_enum_value_config.core.v3.ApiConfigSource.ApiType.GRPC>`.
   // STS based call credentials need to be supplied in :ref:`call_credentials
   // <envoy_api_field_config.core.v3.GrpcService.GoogleGrpc.call_credentials>`.
+  //
   // If :ref:`timeout envoy_api_field_config.core.v3.GrpcService.timeout` is
   // left unspecified, a default value of 10s will be used.
   envoy.config.core.v3.ApiConfigSource server = 1;
 
   // Certificate lifetime to request in CSRs sent to the MeshCA.
+  //
   // A default value of 24h will be used if left unspecified.
   google.protobuf.Duration certificate_lifetime = 2;
 
-  // How long before certificate expiration to renew the certificate.
+  // How long before certificate expiration should the certificate be renewed.
+  //
   // A default value of 12h will be used if left unspecified.
   google.protobuf.Duration renewal_grace_period = 3;
 
   // Type of key.
+  //
   // RSA keys will be used if left unspecified.
   KeyType key_type = 4;
 
   // Size of the key in bits.
+  //
   // 2048 bit keys will be used if left unspecified.
   uint32 key_size = 5;
 
   // GCE location (region/zone) where the workload is located.
+  //
   // GCE/GKE Metadata Server will be contacted if left unspecified.
   string location = 6;
 }

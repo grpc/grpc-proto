@@ -60,16 +60,16 @@ go_rules_dependencies()
 
 http_archive(
     name = "com_github_grpc_grpc",
-    sha256 = "727fae92372f0b6e68f969e2b200add7a87e1395055a72d6363cc82942f93000",
-    strip_prefix = "grpc-1.30.0-pre1",
-    urls = ["https://github.com/grpc/grpc/archive/v1.30.0-pre1.tar.gz"],
+    sha256 = "ba74b97a2f1b4e22ec5fb69d639d849d2069fb58ea7d6579a31f800af6fe3b6c",
+    strip_prefix = "grpc-1.30.2",
+    urls = ["https://github.com/grpc/grpc/archive/v1.30.2.tar.gz"],
 )
 
 http_archive(
     name = "envoy",
-    sha256 = "1b223ee37452d6143d316ddb1a83c27c13daff41dcbdf37899d597a396a6295e",
-    strip_prefix = "envoy-1.14.2",
-    urls = ["https://github.com/envoyproxy/envoy/archive/v1.14.2.tar.gz"],
+    sha256 = "38bd41e5229532abbeccba7b87d80c8664e915ec6f780a60a6b7ef1818458b5a",
+    strip_prefix = "envoy-1.15.0",
+    urls = ["https://github.com/envoyproxy/envoy/archive/v1.15.0.tar.gz"],
 )
 
 load("@envoy//bazel:api_binding.bzl", "envoy_api_binding")
