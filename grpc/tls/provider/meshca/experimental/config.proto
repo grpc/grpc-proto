@@ -21,6 +21,7 @@ package grpc.tls.provider.meshca.experimental;
 import "envoy/config/core/v3/config_source.proto";
 import "google/protobuf/duration.proto";
 
+option go_package = "google.golang.org/grpc/credentials/tls/certprovider/meshca/internal/meshca_experimental";
 option java_outer_classname = "MeshCaConfigProto";
 option java_multiple_files = true;
 option java_package = "io.grpc.tls.provider.meshca.experimental";
