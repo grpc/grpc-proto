@@ -261,6 +261,9 @@ message ClientConfigureRequest {
   repeated RpcType types = 1;
   // The collection of custom metadata to be attached to RPCs sent by the client.
   repeated Metadata metadata = 2;
+  // The deadline to use, in seconds, for all RPCs.  If unset or zero, the
+  // client will use the default from the command-line.
+  int32 timeout_sec = 3;
 }
 
 // Response for updating a test client's configuration.
