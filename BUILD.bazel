@@ -201,3 +201,11 @@ proto_library(
         "@com_google_protobuf//:wrappers_proto",
     ],
 )
+
+proto_library(
+    name = "authz_policy_proto",
+    srcs = [
+        "grpc/auth/v1/authz_policy.proto",
+    ],
+    visibility = ["//visibility:public"],
+)
