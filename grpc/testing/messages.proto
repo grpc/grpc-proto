@@ -237,7 +237,7 @@ message LoadBalancerAccumulatedStatsResponse {
     map<int32, int32> result = 2;
   }
 
-// Per-method RPC statistics.  The key is the full method path; i.e.
+  // Per-method RPC statistics.  The key is the full method path; i.e.
   // "/proto.package.ServiceName/MethodName".
   map<string, MethodStats> stats_per_method = 4;
 }
