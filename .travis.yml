@@ -1,5 +1,0 @@
-script:
-- ./tools/bazel build //...
-
-notifications:
-  email: false
