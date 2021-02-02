@@ -6,8 +6,6 @@ name: Testing
 on:
   push:
   pull_request:
-  schedule:
-    - cron: 0 0 * * * # daily at 00:00
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
