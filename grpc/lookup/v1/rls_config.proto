@@ -29,6 +29,9 @@ option java_outer_classname = "RlsConfigProto";
 // present for the keybuilder to match.
 message NameMatcher {
   // The name that will be used in the RLS key_map to refer to this value.
+  // If required_match is true, you may omit this field or set it to an empty
+  // string, in which case the matcher will require a match, but won't update
+  // the key_map.
   string key = 1;
 
   // Ordered list of names (headers or query parameter names) that can supply
