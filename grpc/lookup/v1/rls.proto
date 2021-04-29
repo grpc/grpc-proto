@@ -33,6 +33,14 @@ message RouteLookupRequest {
   // Target type allows the client to specify what kind of target format it
   // would like from RLS to allow it to find the regional server, e.g. "grpc".
   string target_type = 3;
+  // Possible reasons for making a request.
+  enum Reason {
+    REASON_UNKNOWN = 0;  // Unused
+    REASON_MISS = 1;     // No data available in local cache
+    REASON_STALE = 2;    // Data in local cache is stale
+  }
+  // Reason for making this request.
+  Reason reason = 5;
   // Map of key values extracted via key builders for the gRPC or HTTP request.
   map<string, string> key_map = 4;
 }
