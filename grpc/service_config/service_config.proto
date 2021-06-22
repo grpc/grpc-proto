@@ -308,7 +308,7 @@ message XdsClusterImplLoadBalancingPolicyConfig {
   // If unset, no load reporting is done.
   // If set to empty string, load reporting will be sent to the same
   // server as we are getting xds data from.
-  google.protobuf.String lrs_load_reporting_server_name = 3;
+  google.protobuf.StringValue lrs_load_reporting_server_name = 3;
 
   // Maximum number of outstanding requests can be made to the upstream cluster.
   // Default is 1024.
