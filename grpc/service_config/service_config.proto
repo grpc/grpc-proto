@@ -263,7 +263,10 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
     // cluster.  Default is 1024.
     google.protobuf.UInt32Value max_concurrent_requests = 3;
 
-    enum Type { EDS = 1, LOGICAL_DNS = 2 };
+    enum Type {
+      EDS = 1;
+      LOGICAL_DNS = 2;
+    };
     Type type = 4;
 
     // For type EDS only.
