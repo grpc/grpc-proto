@@ -264,6 +264,7 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
     google.protobuf.UInt32Value max_concurrent_requests = 3;
 
     enum Type {
+      UNKNOWN = 0;
       EDS = 1;
       LOGICAL_DNS = 2;
     };
