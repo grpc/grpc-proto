@@ -41,6 +41,8 @@ message RouteLookupRequest {
   }
   // Reason for making this request.
   Reason reason = 5;
+  // For REASON_STALE, the header_data from the stale response, if any.
+  string stale_header_data = 6;
   // Map of key values extracted via key builders for the gRPC or HTTP request.
   map<string, string> key_map = 4;
 }
