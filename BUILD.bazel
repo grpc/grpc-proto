@@ -139,6 +139,16 @@ java_proto_library(
 )
 
 proto_library(
+    name = "grpclb_load_reporter_proto",
+    srcs = ["grpc/lb/v1/load_reporter.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_google_protobuf//:duration_proto",
+        "@com_google_protobuf//:timestamp_proto",
+    ],
+)
+
+proto_library(
     name = "reflection_proto",
     srcs = ["grpc/reflection/v1/reflection.proto"],
     visibility = ["//visibility:public"],
