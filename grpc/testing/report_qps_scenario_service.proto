@@ -20,6 +20,10 @@ import "grpc/testing/control.proto";
 
 package grpc.testing;
 
+option java_multiple_files = true;
+option java_package = "io.grpc.testing";
+option java_outer_classname = "ReportQpsScenarioServiceProto";
+
 service ReportQpsScenarioService {
   // Report results of a QPS test benchmark scenario.
   rpc ReportScenario(ScenarioResult) returns (Void);

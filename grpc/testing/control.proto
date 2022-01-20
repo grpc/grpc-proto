@@ -19,6 +19,10 @@ import "grpc/testing/stats.proto";
 
 package grpc.testing;
 
+option java_multiple_files = true;
+option java_package = "io.grpc.testing";
+option java_outer_classname = "ControlProto";
+
 enum ClientType {
   // Many languages support a basic distinction between using
   // sync or async client, and this allows the specification
