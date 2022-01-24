@@ -31,6 +31,7 @@ syntax = "proto3";
 package grpc.service_config;
 
 import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
 import "google/protobuf/wrappers.proto";
 import "google/rpc/code.proto";
 
