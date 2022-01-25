@@ -23,9 +23,7 @@ import "grpc/testing/messages.proto";
 
 package grpc.testing;
 
-option java_multiple_files = true;
-option java_package = "io.grpc.testing";
-option java_outer_classname = "TestProto";
+option java_package = "io.grpc.testing.integration";
 
 // A simple service to test the various types of RPCs and experiment with
 // performance with various types of payload.
