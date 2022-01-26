@@ -18,6 +18,10 @@ package grpc.testing;
 
 import "grpc/core/stats.proto";
 
+option java_multiple_files = true;
+option java_package = "io.grpc.testing";
+option java_outer_classname = "StatsProto";
+
 message ServerStats {
   // wall clock time change in seconds since last reset
   double time_elapsed = 1;

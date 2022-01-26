@@ -16,6 +16,10 @@ syntax = "proto3";
 
 package grpc.testing;
 
+option java_multiple_files = true;
+option java_package = "io.grpc.testing";
+option java_outer_classname = "PayloadsProto";
+
 message ByteBufferParams {
   int32 req_size = 1;
   int32 resp_size = 2;
