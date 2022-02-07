@@ -25,6 +25,7 @@ syntax = "proto3";
 package grpc.observability.config;
 
 import "google/protobuf/duration.proto";
+import "grpc/observability/logging/v1/logging.proto";
 
 option java_package = "io.grpc.observability.config";
 option java_multiple_files = true;
@@ -113,7 +114,7 @@ message LoggingConfig {
 
     // If specified, only this list of events will be logged. If the list is
     // empty, all the events will be logged.
-    repeated grpc.observability.logging.v1.EventType event_types = 2;
+    repeated grpc.observability.logging.v1.GrpcLogRecord.EventType event_types = 2;
 }
 
 message DeploymentConfig {
