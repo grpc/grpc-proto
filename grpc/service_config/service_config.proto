@@ -195,6 +195,94 @@ message PickFirstConfig {}
 // Configuration for round_robin LB policy.
 message RoundRobinConfig {}
 
+// Configuration for outlier_detection LB policy
+message OutlierDetectionLoadBalancingConfig {
+  // The time interval between ejection analysis sweeps. This can result in
+  // both new ejections as well as addresses being returned to service. Defaults
+  // to 10000ms or 10s.
+  google.protobuf.Duration interval = 1;
+
+  // The base time that as address is ejected for. The real time is equal to the
+  // base time multiplied by the number of times the address has been ejected.
+  // Defaults to 30000ms or 30s.
+  google.protobuf.Duration base_ejection_time = 2;
+
+  // The maximum time that an address is ejected for. If not specified, the default value (300000ms or 300s) or
+  // the base_ejection_time value is applied, whatever is larger.
+  google.protobuf.Duration max_ejection_time = 3;
+
+  // The maximum % of an address list that can be ejected due to outlier
+  // detection. Defaults to 10% but will eject at least one address regardless of the value.
+  google.protobuf.UInt32Value max_ejection_percent = 4;
+
+  // Parameters for the success rate ejection algorithm.
+  // This algorithm monitors the request success rate for all endpoints and
+  // ejects individual endpoints whose success rates are statistical outliers.
+  message SuccessRateEjection {
+    // This factor is used to determine the ejection threshold for success rate
+    // outlier ejection. The ejection threshold is the difference between the
+    // mean success rate, and the product of this factor and the standard
+    // deviation of the mean success rate: mean - (stdev *
+    // success_rate_stdev_factor). This factor is divided by a thousand to get a
+    // double. That is, if the desired factor is 1.9, the runtime value should
+    // be 1900. Defaults to 1900.
+    google.protobuf.UInt32Value stdev_factor = 1;
+
+    // The % chance that an address will be actually ejected when an outlier status
+    // is detected through success rate statistics. This setting can be used to
+    // disable ejection or to ramp it up slowly. Defaults to 100.
+    google.protobuf.UInt32Value enforcement_percentage = 2;
+
+    // The number of addresses that must have enough request volume to
+    // detect success rate outliers. If the number of addresses is less than this
+    // setting, outlier detection via success rate statistics is not performed
+    // for any addresses. Defaults to 5.
+    google.protobuf.UInt32Value minimum_hosts = 3;
+
+    // The minimum number of total requests that must be collected in one
+    // interval (as defined by the interval duration above) to include this address
+    // in success rate based outlier detection. If the volume is lower than this
+    // setting, outlier detection via success rate statistics is not performed
+    // for that address. Defaults to 100.
+    google.protobuf.UInt32Value request_volume = 4;
+  }
+
+  // Parameters for the failure percentage algorithm.
+  // This algorithm ejects individual endpoints whose failure rate is greater than
+  // some threshold, independently of any other endpoint.
+  message FailurePercentageEjection {
+    // The failure percentage to use when determining failure percentage-based outlier detection. If
+    // the failure percentage of a given address is greater than or equal to this value, it will be
+    // ejected. Defaults to 85.
+    google.protobuf.UInt32Value threshold = 1;
+
+    // The % chance that an address will be actually ejected when an outlier status is detected through
+    // failure percentage statistics. This setting can be used to disable ejection or to ramp it up
+    // slowly. Defaults to 100.
+    google.protobuf.UInt32Value enforcement_percentage = 2;
+
+    // The minimum number of addresses in order to perform failure percentage-based ejection.
+    // If the total number of addresses is less than this value, failure percentage-based
+    // ejection will not be performed. Defaults to 5.
+    google.protobuf.UInt32Value minimum_hosts = 3;
+
+    // The minimum number of total requests that must be collected in one interval (as defined by the
+    // interval duration above) to perform failure percentage-based ejection for this address. If the
+    // volume is lower than this setting, failure percentage-based ejection will not be performed for
+    // this host. Defaults to 50.
+    google.protobuf.UInt32Value request_volume = 4;
+  }
+
+  // If set, success rate ejections will be performed
+  SuccessRateEjection success_rate_ejection = 5;
+  
+  // If set, failure rate ejections will be performed
+  FailurePercentageEjection failure_percentage_ejection = 6;
+
+  // The config for the child policy
+  repeated LoadBalancingConfig child_policy = 13;
+}
+
 // Configuration for grpclb LB policy.
 message GrpcLbConfig {
   // Optional.  What LB policy to use for routing between the backend
@@ -310,6 +398,10 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
     // For type LOGICAL_DNS only.
     // DNS name to resolve in "host:port" form.
     string dns_hostname = 6;
+
+    // The configuration for outlier_detection child policies
+    // Within this message, the child_policy field will be ignored
+    OutlierDetectionLoadBalancingConfig outlier_detection = 7;
   }
 
   // Ordered list of discovery mechanisms.
@@ -483,6 +575,8 @@ message LoadBalancingConfig {
     PickFirstConfig pick_first = 4 [json_name = "pick_first"];
 
     RoundRobinConfig round_robin = 1 [json_name = "round_robin"];
+
+    OutlierDetectionLoadBalancingConfig outlier_detection = 14 [json_name = "outlier_detection"]
 
     // gRPC lookaside load balancing.
     // This will eventually be deprecated by the new xDS-based local
