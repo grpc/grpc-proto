@@ -611,7 +611,7 @@ message LoadBalancingConfig {
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
 
-    // Next available ID: 14
+    // Next available ID: 15
   }
 }
 
