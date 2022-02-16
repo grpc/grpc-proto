@@ -401,7 +401,7 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
 
     // The configuration for outlier_detection child policies
     // Within this message, the child_policy field will be ignored
-    OutlierDetectionLoadBalancingConfig outlier_detection = 7;
+    OutlierDetectionLoadBalancingConfig outlier_detection = 8;
   }
 
   // Ordered list of discovery mechanisms.
@@ -576,7 +576,7 @@ message LoadBalancingConfig {
 
     RoundRobinConfig round_robin = 1 [json_name = "round_robin"];
 
-    OutlierDetectionLoadBalancingConfig outlier_detection = 14 [json_name = "outlier_detection"];
+    OutlierDetectionLoadBalancingConfig outlier_detection = 15 [json_name = "outlier_detection"];
 
     // gRPC lookaside load balancing.
     // This will eventually be deprecated by the new xDS-based local
@@ -611,7 +611,7 @@ message LoadBalancingConfig {
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
 
-    // Next available ID: 15
+    // Next available ID: 16
   }
 }
 
