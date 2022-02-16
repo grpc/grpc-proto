@@ -576,7 +576,7 @@ message LoadBalancingConfig {
 
     RoundRobinConfig round_robin = 1 [json_name = "round_robin"];
 
-    OutlierDetectionLoadBalancingConfig outlier_detection = 14 [json_name = "outlier_detection"]
+    OutlierDetectionLoadBalancingConfig outlier_detection = 14 [json_name = "outlier_detection"];
 
     // gRPC lookaside load balancing.
     // This will eventually be deprecated by the new xDS-based local
