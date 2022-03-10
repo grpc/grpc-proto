@@ -295,6 +295,9 @@ message GrpcLbConfig {
   // Optional.  If specified, overrides the name of the service to be sent to
   // the balancer.
   string service_name = 2;
+  // Optional. The timeout in seconds for receiving the server list from the LB
+  // server. Defaults to 10s.
+  google.protobuf.Duration initial_fallback_timeout = 3;
 }
 
 // Configuration for priority LB policy.
