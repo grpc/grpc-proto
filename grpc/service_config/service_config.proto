@@ -413,12 +413,7 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
   // successive priorities.
   repeated DiscoveryMechanism discovery_mechanisms = 1;
 
-  // xDS LB policy.
-  // This represents the xDS LB policy, which does not necessarily map
-  // one-to-one to a gRPC LB policy.  Currently, the following policies
-  // are supported:
-  // - "ROUND_ROBIN" (config is empty)
-  // - "RING_HASH" (config is a RingHashLoadBalancingConfig)
+  // xDS LB policy. Will be used as the child config of the xds_cluster_impl LB policy. 
   repeated LoadBalancingConfig xds_lb_policy = 2;
 }
 
@@ -522,6 +517,11 @@ message LrsLoadBalancingPolicyConfig {
   repeated LoadBalancingConfig child_policy = 5;
 }
 
+// Configuration for the xds_wrr_locality load balancing policy.
+message XdsWrrLocalityLoadBalancingPolicyConfig {
+  repeated LoadBalancingConfig child_policy = 1;
+}
+
 // Configuration for xds LB policy.
 message XdsConfig {
   // Name of balancer to connect to.
@@ -613,8 +613,10 @@ message LoadBalancingConfig {
     XdsConfig xds = 2 [deprecated = true];
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
+    XdsWrrLocalityLoadBalancingPolicyConfig xds_wrr_locality_experimental = 16
+      [json_name = "xds_wrr_locality_experimental"];
 
-    // Next available ID: 16
+    // Next available ID: 17
   }
 }
 
