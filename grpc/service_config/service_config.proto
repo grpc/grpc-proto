@@ -522,6 +522,11 @@ message XdsWrrLocalityLoadBalancingPolicyConfig {
   repeated LoadBalancingConfig child_policy = 1;
 }
 
+// Configuration for the least_request LB policy.
+message LeastRequestLocalityLoadBalancingPolicyConfig {
+  uint64 choice_count = 1;
+}
+
 // Configuration for xds LB policy.
 message XdsConfig {
   // Name of balancer to connect to.
@@ -615,8 +620,10 @@ message LoadBalancingConfig {
                                     deprecated = true];
     XdsWrrLocalityLoadBalancingPolicyConfig xds_wrr_locality_experimental = 16
       [json_name = "xds_wrr_locality_experimental"];
+    LeastRequestLocalityLoadBalancingPolicyConfig least_request_experimental = 17
+      [json_name = "least_request_experimental"];
 
-    // Next available ID: 17
+    // Next available ID: 18
   }
 }
 
