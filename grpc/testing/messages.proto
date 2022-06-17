@@ -180,6 +180,9 @@ message StreamingOutputCallRequest {
 
   // Whether server should return a given status
   EchoStatus response_status = 7;
+
+  // If set the server should update this metrics report data at the OOB server.
+  TestOrcaReport orca_oob_report = 8;
 }
 
 // Server-streaming response, as configured by the request and parameters.
