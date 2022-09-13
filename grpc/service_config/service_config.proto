@@ -415,6 +415,9 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
 
   // xDS LB policy. Will be used as the child config of the xds_cluster_impl LB policy. 
   repeated LoadBalancingConfig xds_lb_policy = 2;
+
+  // override_host_status in CDS includes values we support for stateful session affinity.
+  bool override_host_enabled = 3;
 }
 
 // Configuration for xds_cluster_impl LB policy.
@@ -527,6 +530,13 @@ message LeastRequestLocalityLoadBalancingPolicyConfig {
   uint64 choice_count = 1;
 }
 
+
+// Configuration for the override_host LB policy.
+message OverrideHostLoadBalancingPolicyConfig {
+  // override_host_status in CDS includes values we support for stateful session affinity.
+  bool override_host_enabled = 1;
+}
+
 // Configuration for xds LB policy.
 message XdsConfig {
   // Name of balancer to connect to.
@@ -622,6 +632,8 @@ message LoadBalancingConfig {
       [json_name = "xds_wrr_locality_experimental"];
     LeastRequestLocalityLoadBalancingPolicyConfig least_request_experimental = 17
       [json_name = "least_request_experimental"];
+    OverrideHostLoadBalancingPolicyConfig override_host_experimental = 18
+      [json_name = "override_host_experimental"];
 
     // Next available ID: 18
   }
