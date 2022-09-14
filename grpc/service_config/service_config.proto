@@ -415,9 +415,6 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
 
   // xDS LB policy. Will be used as the child config of the xds_cluster_impl LB policy. 
   repeated LoadBalancingConfig xds_lb_policy = 2;
-
-  // override_host_status in CDS includes values we support for stateful session affinity.
-  bool override_host_enabled = 3;
 }
 
 // Configuration for xds_cluster_impl LB policy.
@@ -534,7 +531,9 @@ message LeastRequestLocalityLoadBalancingPolicyConfig {
 // Configuration for the override_host LB policy.
 message OverrideHostLoadBalancingPolicyConfig {
   // override_host_status in CDS includes values we support for stateful session affinity.
-  bool override_host_enabled = 1;
+  bool enabled = 1;
+
+  repeated LoadBalancingConfig child_policy = 2;
 }
 
 // Configuration for xds LB policy.
