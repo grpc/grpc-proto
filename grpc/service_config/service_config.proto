@@ -530,7 +530,7 @@ message LeastRequestLocalityLoadBalancingPolicyConfig {
 
 // Configuration for the override_host LB policy.
 message OverrideHostLoadBalancingPolicyConfig {
-  // override_host_status in CDS includes values we support for stateful session affinity.
+  // if set to false this LB policy will be a no-op
   bool enabled = 1;
 
   repeated LoadBalancingConfig child_policy = 2;
