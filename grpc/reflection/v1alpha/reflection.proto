@@ -22,6 +22,7 @@ syntax = "proto3";
 package grpc.reflection.v1alpha;
 
 option deprecated = true;
+option go_package = "google.golang.org/grpc/reflection/grpc_reflection_v1alpha";
 option java_multiple_files = true;
 option java_package = "io.grpc.reflection.v1alpha";
 option java_outer_classname = "ServerReflectionProto";
