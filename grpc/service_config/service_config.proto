@@ -34,6 +34,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/wrappers.proto";
 import "google/rpc/code.proto";
+import "grpc/lookup/v1/rls_config.proto";
 
 option java_package = "io.grpc.serviceconfig";
 option java_multiple_files = true;
@@ -328,6 +329,18 @@ message WeightedTargetLoadBalancingPolicyConfig {
   map<string, Target> targets = 1;
 }
 
+// Config for RLS LB policy.
+message RlsLoadBalancingPolicyConfig {
+  // Route lookup config.
+  grpc.lookup.v1.RouteLookupConfig route_lookup_config = 1;
+  // Service config to use for the RLS channel.
+  ServiceConfig route_lookup_channel_service_config = 2;
+  // Child policy config.
+  repeated LoadBalancingConfig child_policy = 3;
+  // Field name to add to child policy config to contain the target name.
+  string child_policy_config_target_field_name = 4;
+}
+
 // Configuration for xds_cluster_manager_experimental LB policy.
 message XdsClusterManagerLoadBalancingPolicyConfig {
   message Child {
@@ -584,8 +597,6 @@ message LoadBalancingConfig {
 
     RoundRobinConfig round_robin = 1 [json_name = "round_robin"];
 
-    OutlierDetectionLoadBalancingConfig outlier_detection = 15 [json_name = "outlier_detection"];
-
     // gRPC lookaside load balancing.
     // This will eventually be deprecated by the new xDS-based local
     // balancing policy.
@@ -597,6 +608,9 @@ message LoadBalancingConfig {
         [json_name = "priority_experimental"];
     WeightedTargetLoadBalancingPolicyConfig weighted_target_experimental = 10
         [json_name = "weighted_target_experimental"];
+    OutlierDetectionLoadBalancingConfig outlier_detection = 15
+        [json_name = "outlier_detection_experimental"];
+    RlsLoadBalancingPolicyConfig rls = 18 [json_name = "rls_experimental"];
 
     // xDS-based load balancing.
     XdsClusterManagerLoadBalancingPolicyConfig xds_cluster_manager_experimental
@@ -607,8 +621,12 @@ message LoadBalancingConfig {
         [json_name = "xds_cluster_resolver_experimental"];
     XdsClusterImplLoadBalancingPolicyConfig xds_cluster_impl_experimental = 12
         [json_name = "xds_cluster_impl_experimental"];
+    XdsWrrLocalityLoadBalancingPolicyConfig xds_wrr_locality_experimental = 16
+        [json_name = "xds_wrr_locality_experimental"];
     RingHashLoadBalancingConfig ring_hash_experimental = 13
         [json_name = "ring_hash_experimental"];
+    LeastRequestLocalityLoadBalancingPolicyConfig least_request_experimental =
+        17 [json_name = "least_request_experimental"];
 
     // Deprecated xDS-related policies.
     LrsLoadBalancingPolicyConfig lrs_experimental = 8
@@ -618,12 +636,8 @@ message LoadBalancingConfig {
     XdsConfig xds = 2 [deprecated = true];
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
-    XdsWrrLocalityLoadBalancingPolicyConfig xds_wrr_locality_experimental = 16
-      [json_name = "xds_wrr_locality_experimental"];
-    LeastRequestLocalityLoadBalancingPolicyConfig least_request_experimental = 17
-      [json_name = "least_request_experimental"];
 
-    // Next available ID: 18
+    // Next available ID: 19
   }
 }
 
