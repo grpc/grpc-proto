@@ -405,6 +405,9 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
     // The configuration for outlier_detection child policies
     // Within this message, the child_policy field will be ignored
     OutlierDetectionLoadBalancingConfig outlier_detection = 8;
+
+    // The configuration for xds_override_host child policy
+    repeated OverrideHostLoadBalancingPolicyConfig.HealthStatus override_host_status = 9;
   }
 
   // Ordered list of discovery mechanisms.
@@ -530,8 +533,16 @@ message LeastRequestLocalityLoadBalancingPolicyConfig {
 
 // Configuration for the override_host LB policy.
 message OverrideHostLoadBalancingPolicyConfig {
-  // if set to false this LB policy will be a no-op
-  bool enabled = 1;
+  enum HealthStatus {
+    UNKNOWN = 0;
+    HEALTHY = 1;
+    DRAINING = 3;
+  }
+
+  // valid health status for hosts that are considered when using
+  // xds_override_host_experimental policy.
+  // Default is [UNKNOWN, HEALTHY]
+  repeated HealthStatus override_host_status = 1;
 
   repeated LoadBalancingConfig child_policy = 2;
 }
