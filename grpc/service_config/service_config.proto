@@ -629,6 +629,8 @@ message LoadBalancingConfig {
         [json_name = "xds_cluster_impl_experimental"];
     RingHashLoadBalancingConfig ring_hash_experimental = 13
         [json_name = "ring_hash_experimental"];
+    OverrideHostLoadBalancingPolicyConfig override_host_experimental = 18
+      [json_name = "override_host_experimental"];
 
     // Deprecated xDS-related policies.
     LrsLoadBalancingPolicyConfig lrs_experimental = 8
@@ -642,10 +644,8 @@ message LoadBalancingConfig {
       [json_name = "xds_wrr_locality_experimental"];
     LeastRequestLocalityLoadBalancingPolicyConfig least_request_experimental = 17
       [json_name = "least_request_experimental"];
-    OverrideHostLoadBalancingPolicyConfig override_host_experimental = 18
-      [json_name = "override_host_experimental"];
 
-    // Next available ID: 18
+    // Next available ID: 19
   }
 }
 
