@@ -630,7 +630,7 @@ message LoadBalancingConfig {
     RingHashLoadBalancingConfig ring_hash_experimental = 13
         [json_name = "ring_hash_experimental"];
     OverrideHostLoadBalancingPolicyConfig override_host_experimental = 18
-      [json_name = "override_host_experimental"];
+        [json_name = "override_host_experimental"];
 
     // Deprecated xDS-related policies.
     LrsLoadBalancingPolicyConfig lrs_experimental = 8
