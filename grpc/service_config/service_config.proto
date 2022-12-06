@@ -633,7 +633,7 @@ message LoadBalancingConfig {
         [json_name = "weighted_target_experimental"];
     OutlierDetectionLoadBalancingConfig outlier_detection = 15
         [json_name = "outlier_detection_experimental"];
-    RlsLoadBalancingPolicyConfig rls = 18 [json_name = "rls_experimental"];
+    RlsLoadBalancingPolicyConfig rls = 19 [json_name = "rls_experimental"];
 
     // xDS-based load balancing.
     XdsClusterManagerLoadBalancingPolicyConfig xds_cluster_manager_experimental
@@ -662,7 +662,7 @@ message LoadBalancingConfig {
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
 
-    // Next available ID: 19
+    // Next available ID: 20
   }
 }
 
