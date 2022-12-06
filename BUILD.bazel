@@ -239,6 +239,7 @@ proto_library(
     srcs = ["grpc/service_config/service_config.proto"],
     visibility = ["//visibility:public"],
     deps = [
+        ":rls_config_proto",
         "@com_google_googleapis//google/rpc:code_proto",
         "@com_google_protobuf//:duration_proto",
         "@com_google_protobuf//:wrappers_proto",
