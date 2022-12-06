@@ -418,6 +418,9 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
     // The configuration for outlier_detection child policies
     // Within this message, the child_policy field will be ignored
     OutlierDetectionLoadBalancingConfig outlier_detection = 8;
+
+    // The configuration for xds_override_host child policy
+    repeated OverrideHostLoadBalancingPolicyConfig.HealthStatus override_host_status = 9;
   }
 
   // Ordered list of discovery mechanisms.
@@ -543,6 +546,23 @@ message LeastRequestLocalityLoadBalancingPolicyConfig {
   uint64 choice_count = 1;
 }
 
+
+// Configuration for the override_host LB policy.
+message OverrideHostLoadBalancingPolicyConfig {
+  enum HealthStatus {
+    UNKNOWN = 0;
+    HEALTHY = 1;
+    DRAINING = 3;
+  }
+
+  // valid health status for hosts that are considered when using
+  // xds_override_host_experimental policy.
+  // Default is [UNKNOWN, HEALTHY]
+  repeated HealthStatus override_host_status = 1;
+
+  repeated LoadBalancingConfig child_policy = 2;
+}
+
 // Configuration for xds LB policy.
 message XdsConfig {
   // Name of balancer to connect to.
@@ -624,6 +644,8 @@ message LoadBalancingConfig {
         [json_name = "xds_cluster_resolver_experimental"];
     XdsClusterImplLoadBalancingPolicyConfig xds_cluster_impl_experimental = 12
         [json_name = "xds_cluster_impl_experimental"];
+    OverrideHostLoadBalancingPolicyConfig override_host_experimental = 18
+        [json_name = "override_host_experimental"];
     XdsWrrLocalityLoadBalancingPolicyConfig xds_wrr_locality_experimental = 16
         [json_name = "xds_wrr_locality_experimental"];
     RingHashLoadBalancingConfig ring_hash_experimental = 13
