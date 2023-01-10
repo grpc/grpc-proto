@@ -196,6 +196,36 @@ message PickFirstConfig {}
 // Configuration for round_robin LB policy.
 message RoundRobinConfig {}
 
+// Configuration for weighted_round_robin LB policy.
+message WeightedRoundRobinLbConfig {
+  // Whether to enable out-of-band utilization reporting collection from
+  // the endpoints.  By default, per-request utilization reporting is used.
+  google.protobuf.BoolValue enable_oob_load_report = 1;
+
+  // Load reporting interval to request from the server.  Note that the
+  // server may not provide reports as frequently as the client requests.
+  // Used only when enable_oob_load_report is true.  Default is 10 seconds.
+  google.protobuf.Duration oob_reporting_period = 2;
+
+  // A given endpoint must report load metrics continuously for at least
+  // this long before the endpoint weight will be used.  This avoids
+  // churn when the set of endpoint addresses changes.  Takes effect
+  // both immediately after we establish a connection to an endpoint and
+  // after weight_expiration_period has caused us to stop using the most
+  // recent load metrics.  Default is 10 seconds.
+  google.protobuf.Duration blackout_period = 3;
+
+  // If a given endpoint has not reported load metrics in this long,
+  // then we stop using the reported weight.  This ensures that we do
+  // not continue to use very stale weights.  Once we stop using a stale
+  // value, if we later start seeing fresh reports again, the
+  // blackout_period applies.  Defaults to 3 minutes.
+  google.protobuf.Duration weight_expiration_period = 4;
+
+  // How often endpoint weights are recalculated.  Default is 1 second.
+  google.protobuf.Duration weight_update_period = 5;
+}
+
 // Configuration for outlier_detection LB policy
 message OutlierDetectionLoadBalancingConfig {
   // The time interval between ejection analysis sweeps. This can result in
@@ -620,6 +650,9 @@ message LoadBalancingConfig {
 
     RoundRobinConfig round_robin = 1 [json_name = "round_robin"];
 
+    WeightedRoundRobinLbConfig weighted_round_robin = 20
+        [json_name = "weighted_round_robin"];
+
     // gRPC lookaside load balancing.
     // This will eventually be deprecated by the new xDS-based local
     // balancing policy.
@@ -662,7 +695,7 @@ message LoadBalancingConfig {
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
 
-    // Next available ID: 20
+    // Next available ID: 21
   }
 }
 
