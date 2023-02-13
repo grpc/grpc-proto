@@ -213,6 +213,17 @@ message RouteLookupConfig {
   // target, e.g. "us_east_1.cloudbigtable.googleapis.com".
   string default_target = 9;
 
+  // This value indicates that when the RLS returns an error, a cached stale
+  // response may be used to satisfy the request after it expires at max_age for
+  // an additional stale_if_error period (similar to the HTTP stale-if-error
+  // Cache-Control Extension). If zero, the cached stale response will not be
+  // used to satisfy any request immediately after it expires at max_age. If
+  // omitted, the cached stale response may be used indefinitely until any
+  // subsequent asynchronous RPC for re-validating the cache succeeds. After the
+  // additional stale_if_error period passes, the default_target will be
+  // returned.
+  google.protobuf.Duration stale_if_error = 11;
+
   reserved 10;
   reserved "request_processing_strategy";
 }
