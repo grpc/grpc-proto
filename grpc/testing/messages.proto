@@ -33,6 +33,12 @@ message BoolValue {
 enum PayloadType {
   // Compressable text format.
   COMPRESSABLE = 0;
+
+  // Uncompressable binary format.
+  UNCOMPRESSABLE = 1;
+
+  // Randomly chosen from all other formats defined in this enum.
+  RANDOM = 2;
 }
 
 // A block of data, to simply increase gRPC message size.
