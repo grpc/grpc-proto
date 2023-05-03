@@ -192,8 +192,9 @@ message MethodConfig {
 
 // Configuration for pick_first LB policy.
 message PickFirstConfig {
-  // If set to true, instructs the LB policy to shuffle the list of addresses
-  // received from the name resolver before attempting to connect to them.
+  // If set to true, instructs the LB policy to randomly shuffle the list of
+  // addresses received from the name resolver before attempting to connect to
+  // them.
   bool shuffle_address_list = 1;
 }
 
