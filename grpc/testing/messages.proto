@@ -206,8 +206,8 @@ message LoadBalancerStatsRequest {
   int32 num_rpcs = 1;
   // If num_rpcs have not completed within timeout_sec, return partial results.
   int32 timeout_sec = 2;
-  // response header+trailer we want the values of.
-  // note the matching of keys is case-insensitive as per rfc7540#section-8.1.2
+  // Response header + trailer metadata entries we want the values of.
+  // Matching of the keys is case-insensitive as per rfc7540#section-8.1.2
   // * (asterisk) is a special value that will return all metadata entries
   repeated string metadata_keys = 3;
 }
