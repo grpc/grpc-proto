@@ -37,6 +37,8 @@ message RouteLookupRequest {
   string stale_header_data = 6;
   // Map of key values extracted via key builders for the gRPC or HTTP request.
   map<string, string> key_map = 4;
+  // Application-specific optional extensions.
+  repeated Any extensions = 5;
 
   reserved 1, 2;
   reserved "server", "path";
@@ -51,6 +53,8 @@ message RouteLookupResponse {
   // Cached with "target" and sent with all requests that match the request key.
   // Allows the RLS to pass its work product to the eventual target.
   string header_data = 2;
+  // Application-specific optional extensions.
+  repeated Any extensions = 4;  
 
   reserved 1;
   reserved "target";
