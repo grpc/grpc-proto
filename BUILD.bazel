@@ -213,6 +213,7 @@ proto_library(
     name = "rls_proto",
     srcs = ["grpc/lookup/v1/rls.proto"],
     visibility = ["//visibility:public"],
+    deps = ["@com_google_protobuf//:any_proto"],
 )
 
 java_proto_library(

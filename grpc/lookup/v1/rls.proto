@@ -16,6 +16,8 @@ syntax = "proto3";
 
 package grpc.lookup.v1;
 
+import "google/protobuf/any.proto";
+
 option go_package = "google.golang.org/grpc/lookup/grpc_lookup_v1";
 option java_multiple_files = true;
 option java_package = "io.grpc.lookup.v1";
@@ -37,6 +39,8 @@ message RouteLookupRequest {
   string stale_header_data = 6;
   // Map of key values extracted via key builders for the gRPC or HTTP request.
   map<string, string> key_map = 4;
+  // Application-specific optional extensions.
+  repeated google.protobuf.Any extensions = 7;
 
   reserved 1, 2;
   reserved "server", "path";
@@ -51,6 +55,8 @@ message RouteLookupResponse {
   // Cached with "target" and sent with all requests that match the request key.
   // Allows the RLS to pass its work product to the eventual target.
   string header_data = 2;
+  // Application-specific optional extensions.
+  repeated google.protobuf.Any extensions = 4;
 
   reserved 1;
   reserved "target";
