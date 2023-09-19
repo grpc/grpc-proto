@@ -95,6 +95,7 @@ service LoadBalancerStatsService {
 // with HookRequestCommand::START
 service HookService {
   rpc Hook(grpc.testing.Empty) returns (grpc.testing.Empty);
+  rpc ReturnAll(ReturnAllRequest) returns (grpc.testing.Empty);
 }
 
 // A service to remotely control health status of an xDS test server.

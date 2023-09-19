@@ -319,6 +319,14 @@ message TestOrcaReport {
   map<string, double> utilization = 4;
 }
 
+// Request to a ReturnAll method of the HookService. Specifies the status
+// that will be returned to all pending hook requests as well as hook requests
+// that will arrive after this call.
+message ReturnAllRequest {
+  int32 grpc_code_to_return = 1;
+  string grpc_status_description = 2;
+}
+
 message HookRequest {
   enum HookRequestCommand {
     // Default value
