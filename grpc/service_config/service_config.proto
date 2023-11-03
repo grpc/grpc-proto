@@ -462,6 +462,9 @@ message XdsClusterResolverLoadBalancingPolicyConfig {
 
     // The configuration for xds_override_host child policy
     repeated OverrideHostLoadBalancingPolicyConfig.HealthStatus override_host_status = 9;
+
+    // Telemetry labels associated with this cluster
+    map<string, string> telemetry_labels = 10;
   }
 
   // Ordered list of discovery mechanisms.
@@ -510,6 +513,9 @@ message XdsClusterImplLoadBalancingPolicyConfig {
 
   // Child policy.
   repeated LoadBalancingConfig child_policy = 6;
+
+  // Telemetry labels associated with this cluster
+  map<string, string> telemetry_labels = 8;
 }
 
 // Configuration for eds LB policy.
