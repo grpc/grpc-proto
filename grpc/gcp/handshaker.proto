@@ -156,6 +156,11 @@ message NextHandshakeMessageReq {
   // that the peer's out_frames are split into multiple NextHandshakerMessageReq
   // messages.
   bytes in_bytes = 1;
+
+  // Number of milliseconds between when the application send the last handshake
+  // message to the peer and when the application received the current handshake
+  // message (in the in_bytes field) from the peer.
+  optional uint32 network_latency_ms = 2;
 }
 
 message HandshakerReq {
