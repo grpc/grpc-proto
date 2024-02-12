@@ -39,6 +39,14 @@ message HealthCheckResponse {
   ServingStatus status = 1;
 }
 
+message HealthListRequest {
+  repeated string services = 1; // Contains the name of the services that should be obtained. If empty, must returns all.
+}
+
+message HealthListResponse {
+  map<string, HealthCheckResponse> services_statuses = 2; // Contains all the service and their respective status.
+}
+
 // Health is gRPC's mechanism for checking whether a server is able to handle
 // RPCs. Its semantics are documented in
 // https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
@@ -53,6 +61,19 @@ service Health {
   //
   // Check implementations should be idempotent and side effect free.
   rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
+
+  // List gets the health of all the available services. A filtered list can
+  // be obtained by sending the list of the respective service names. If the
+  // list of service names is empty must return all the available services.
+  //
+  // Use case: Integrate servers and status report dashboards.
+  //
+  // Clients should set a deadline when calling List, and can declare the
+  // server unhealthy if they do not receive a timely response.
+  //
+  //
+  // List implementations should be idempotent and side effect free.
+  rpc List(HealthListRequest) returns (HealthCheckResponse);
 
   // Performs a watch for the serving status of the requested service.
   // The server will immediately send back a message indicating the current
