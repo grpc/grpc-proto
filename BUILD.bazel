@@ -243,7 +243,7 @@ proto_library(
         ":rls_config_proto",
         "@com_google_googleapis//google/rpc:code_proto",
         "@com_google_protobuf//:duration_proto",
-        "@com_google_protobuf//:wrappers_proto",
         "@com_google_protobuf//:struct_proto",
+        "@com_google_protobuf//:wrappers_proto",
     ],
 )
