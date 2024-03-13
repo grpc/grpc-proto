@@ -115,6 +115,16 @@ message ChannelData {
 
   // The last time a call was started on the channel.
   google.protobuf.Timestamp last_call_started_timestamp = 7;
+
+  // Extra options set on this channel. May be absent.
+  map<string, string> option = 8;
+
+  // Last RPC error reported from this channel. May be absent.
+  RpcError last_rpc_error = 9;
+
+  // Extra state values for this channel. This field is for exporting internal
+  // state values such as the transport flow control state. May be absent.
+  map<string, string> additional_state = 10;
 }
 
 // A trace event is an interesting thing that happened to a channel or
@@ -162,7 +172,7 @@ message ChannelRef {
   // An optional name associated with the channel.
   string name = 2;
   // Intentionally don't use field numbers from other refs.
-  reserved 3, 4, 5, 6, 7, 8;
+  reserved 3, 4, 5, 6, 7, 8, 9, 10;
 }
 
 // SubchannelRef is a reference to a Subchannel.
@@ -172,7 +182,7 @@ message SubchannelRef {
   // An optional name associated with the subchannel.
   string name = 8;
   // Intentionally don't use field numbers from other refs.
-  reserved 1, 2, 3, 4, 5, 6;
+  reserved 1, 2, 3, 4, 5, 6, 9, 10;
 }
 
 // SocketRef is a reference to a Socket.
@@ -182,7 +192,7 @@ message SocketRef {
   // An optional name associated with the socket.
   string name = 4;
   // Intentionally don't use field numbers from other refs.
-  reserved 1, 2, 5, 6, 7, 8;
+  reserved 1, 2, 5, 6, 7, 8, 9, 10;
 }
 
 // ServerRef is a reference to a Server.
@@ -192,7 +202,7 @@ message ServerRef {
   // An optional name associated with the server.
   string name = 6;
   // Intentionally don't use field numbers from other refs.
-  reserved 1, 2, 3, 4, 7, 8;
+  reserved 1, 2, 3, 4, 7, 8, 9, 10;
 }
 
 // Server represents a single server.  There may be multiple servers in a single
@@ -206,6 +216,8 @@ message Server {
   // The sockets that the server is listening on.  There are no ordering
   // guarantees.  This may be absent.
   repeated SocketRef listen_socket = 3;
+  // Server connections. No ordering guarantees. May be absent.
+  repeated ServerConnectionRef server_connection = 4;
 }
 
 // ServerData is data for a specific Server.
@@ -222,6 +234,40 @@ message ServerData {
 
   // The last time a call was started on the server.
   google.protobuf.Timestamp last_call_started_timestamp = 5;
+
+  // Extra options set on this server. May be absent.
+  map<string, string> option = 6;
+}
+
+// ServerRef is a reference to a ServerConnection.
+message ServerConnectionRef {
+  // A globally unique identifier for this connection.  Must be a positive number.
+  int64 server_connection_id = 9;
+  // An optional name associated with the connection.
+  string name = 10;
+  // Intentionally don't use field numbers from other refs.
+  reserved 1, 2, 3, 4, 5, 6, 7, 8;
+}
+
+// ServerConnection is a logical grouping of connected server connections.
+message ServerConnection {
+  // Connected sockets in this server connection. No ordering guarantees.
+  repeated Socket socket = 1;
+  // Data specific to this connection.
+  ServerConnectionData data = 2;
+}
+
+// Data for a specific ServerConnection.
+message ServerConnectionData {
+  // Extra options set on this server connection. May be absent.
+  map<string, string> option = 1;
+
+  // Last RPC error reported from this connection. May be absent.
+  RpcError last_rpc_error = 2;
+
+  // Extra state values for this channel. This field is for exporting internal
+  // state values such as the transport flow control state. May be absent.
+  map<string, string> additional_state = 3;
 }
 
 // Information about an actual connection.  Pronounced "sock-ay".
@@ -418,6 +464,16 @@ message SocketOptionTcpInfo {
   uint32 tcpi_reordering = 29;
 }
 
+// RpcError describes an RPC error.
+message RpcError {
+  // Time when this error was generated.
+  google.protobuf.Timestamp time = 1;
+  // The canonical error code value in google.rpc.Code.
+  uint32 code = 2;
+  // The detailed error message associated with this error.
+  string msg = 3;
+}
+
 // Channelz is a service exposed by gRPC servers that provides detailed debug
 // information.
 service Channelz {
@@ -429,11 +485,18 @@ service Channelz {
   // Returns a single Server, or else a NOT_FOUND code.
   rpc GetServer(GetServerRequest) returns (GetServerResponse);
   // Gets all server sockets that exist in the process.
-  rpc GetServerSockets(GetServerSocketsRequest) returns (GetServerSocketsResponse);
+  rpc GetServerConnections(GetServerConnectionsRequest) returns
+      (GetServerConnectionsResponse);
+  // Gets all server connections that exist in the process.
+  rpc GetServerSockets(GetServerSocketsRequest)
+      returns (GetServerSocketsResponse);
   // Returns a single Channel, or else a NOT_FOUND code.
   rpc GetChannel(GetChannelRequest) returns (GetChannelResponse);
   // Returns a single Subchannel, or else a NOT_FOUND code.
   rpc GetSubchannel(GetSubchannelRequest) returns (GetSubchannelResponse);
+  // Returns a single ServerConnection or else a NOT_FOUND code.
+  rpc GetServerConnection(GetServerConnectionRequest)
+      returns (GetServerConnectionResponse);
   // Returns a single Socket or else a NOT_FOUND code.
   rpc GetSocket(GetSocketRequest) returns (GetSocketResponse);
 }
@@ -499,6 +562,31 @@ message GetServerResponse {
   Server server = 1;
 }
 
+message GetServerConnectionsRequest {
+  // server_id is the identifier of the specific server to get.
+  int64 server_id = 1;
+  // start_connection_id indicates that only connections at or above this id
+  // should be included in the results.
+  // To request the first page, this must be set to 0. To request
+  // subsequent pages, the client generates this value by adding 1 to
+  // the highest seen result ID.
+  int64 start_connection_id = 2;
+  // If non-zero, the server will return a page of results containing
+  // at most this many items. If zero, the server will choose a
+  // reasonable page size.  Must never be negative.
+  int64 max_results = 3;
+}
+
+message GetServerConnectionsResponse {
+  // Refs of server connections requested. Sorted in ascending order by id.
+  // Must contain at least 1 result, otherwise 'end' must be true.
+  repeated ServerConnectionRef socket_ref = 1;
+  // If set, indicates that the list of connections is the final list.
+  // Requesting more connections will only return more if they are created after
+  // this RPC completes.
+  bool end = 2;
+}
+
 message GetServerSocketsRequest {
   int64 server_id = 1;
   // start_socket_id indicates that only sockets at or above this id should be
@@ -547,9 +635,9 @@ message GetSubchannelResponse {
   Subchannel subchannel = 1;
 }
 
-message GetSocketRequest {
-  // socket_id is the identifier of the specific socket to get.
-  int64 socket_id = 1;
+message GetServerConnectionRequest {
+  // connection_id is the identifier of the specific connection to get.
+  int64 connection_id = 1;
 
   // If true, the response will contain only high level information
   // that is inexpensive to obtain. Fields thay may be omitted are
@@ -557,8 +645,19 @@ message GetSocketRequest {
   bool summary = 2;
 }
 
-message GetSocketResponse {
-  // The Socket that corresponds to the requested socket_id.  This field
+message GetServerConnectionResponse {
+  // The ServerConnection that corresponds to the requested socket_id.  This field
   // should be set.
-  Socket socket = 1;
+  ServerConnection socket = 1;
+}
+
+message GetSocketRequest {
+  // socket_id is the identifier of the specific socket to get.
+  int64 socket_id = 1;
+}
+
+message GetSocketResponse {
+  // The ServerConnection that corresponds to the requested connection_id.
+  // This field should be set.
+  ServerConnection connection = 1;
 }
