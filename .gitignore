@@ -4,3 +4,4 @@ bazel-grpc-proto
 bazel-out
 bazel-testlogs
 tools/bazel-*
+MODULE.bazel.lock
