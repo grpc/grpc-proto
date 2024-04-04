@@ -125,10 +125,10 @@ message ServerHandshakeParameters {
   // specified. Otherwise, the handshaker chooses a default local identity.
   repeated Identity local_identities = 2;
 
-  // An identity token created by GKE MDS only intended for use in Direct Path
-  // connections. The identity token should be used to authenticate to the peer.
-  // It MUST be strongly bound to the ALTS credentials used to establish the
-  // connection that the token is sent over.
+  // An token created by the caller only intended for use in
+  // ALTS connections. The token should be used to authenticate to
+  // the peer. The token MUST be strongly bound to the ALTS credentials
+  // used to establish the connection that the token is sent over.
   optional string token = 3;
 }
 
