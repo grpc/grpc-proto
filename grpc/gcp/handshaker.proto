@@ -125,7 +125,7 @@ message ServerHandshakeParameters {
   // specified. Otherwise, the handshaker chooses a default local identity.
   repeated Identity local_identities = 2;
 
-  // An token created by the caller only intended for use in
+  // A token created by the caller only intended for use in
   // ALTS connections. The token should be used to authenticate to
   // the peer. The token MUST be strongly bound to the ALTS credentials
   // used to establish the connection that the token is sent over.
