@@ -17,7 +17,7 @@
 
 syntax = "proto3";
 
-package grpc.gcp;
+package grpc.gcp.s2a;
 
 import "grpc/gcp/s2a/common.proto";
 import "grpc/gcp/s2a/s2a_context.proto";
