@@ -303,7 +303,7 @@ message SessionReq {
   // identity is not populated, S2A will try to deduce the managed identity to
   // use from the SNI extension. If that also fails, S2A uses the default
   // identity (if one exists).
-  s2a.proto.Identity local_identity = 1;
+  Identity local_identity = 1;
 
   // The authentication mechanisms that the application wishes to use to
   // authenticate to S2A, ordered by preference. S2A will always use the first
