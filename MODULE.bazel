@@ -1,5 +1,5 @@
 module(
-    name = "grpc_proto",
+    name = "grpc-proto",
     version = "0.0.0",
     repo_name = "io_grpc_grpc_proto",
 )
