@@ -26,6 +26,8 @@ option java_outer_classname = "S2AContextProto";
 option java_package = "io.grpc.s2a.handshaker";
 
 message S2AContext {
+  reserved 5, 7, 8
+
   // The SPIFFE ID from the peer leaf certificate, if present.
   //
   // This field is only populated if the leaf certificate is a valid SPIFFE
@@ -54,7 +56,7 @@ message S2AContext {
   repeated string peer_certificate_chain_fingerprints = 4;
 
   // The local identity used during session setup.
-  Identity local_identity = 5;
+  Identity local_identity = 9;
 
   // The SHA256 hash of the DER-encoding of the local leaf certificate used in
   // the handshake.
