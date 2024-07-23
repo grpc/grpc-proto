@@ -476,6 +476,16 @@ message OverrideHostLoadBalancingPolicyConfig {
   repeated HealthStatus override_host_status = 1 [deprecated = true];
 }
 
+// Configuration for the random_subsetting_experimental LB policy.
+message RandomSubsettingLbConfig {
+    // subset_size indicates how many backends every client will be connected to.
+    // The value is required and must be greater than 0.
+    uint32 subset_size = 1;
+    // The config for the child policy.
+    // The value is required.
+    repeated LoadBalancingConfig child_policy = 2;
+}
+
 // Selects LB policy and provides corresponding configuration.
 //
 // In general, all instances of this field should be repeated. Clients will
@@ -526,6 +536,8 @@ message LoadBalancingConfig {
     OutlierDetectionLoadBalancingConfig outlier_detection = 15
         [json_name = "outlier_detection_experimental"];
     RlsLoadBalancingPolicyConfig rls = 19 [json_name = "rls_experimental"];
+    RandomSubsettingLbConfig random_subsetting = 21 
+        [json_name = "random_subsetting_experimental"];
 
     // xDS-based load balancing.
     XdsClusterManagerLoadBalancingPolicyConfig xds_cluster_manager_experimental
@@ -554,7 +566,7 @@ message LoadBalancingConfig {
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
 
-    // Next available ID: 21
+    // Next available ID: 22
   }
 }
 
