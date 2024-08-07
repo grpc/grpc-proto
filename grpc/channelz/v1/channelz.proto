@@ -552,7 +552,7 @@ message GetSocketRequest {
   int64 socket_id = 1;
 
   // If true, the response will contain only high level information
-  // that is inexpensive to obtain. Fields thay may be omitted are
+  // that is inexpensive to obtain. Fields that may be omitted are
   // documented.
   bool summary = 2;
 }
