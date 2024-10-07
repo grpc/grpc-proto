@@ -66,6 +66,12 @@ java_proto_library(
 )
 
 proto_library(
+    name = "xdsconfig",
+    srcs = ["grpc/testing/xdsconfig/xdsconfig.proto"],
+    deps = ["@com_google_protobuf//:any_proto"],
+)
+
+proto_library(
     name = "report_qps_scenario_service_proto",
     srcs = ["grpc/testing/report_qps_scenario_service.proto"],
     deps = [":control_proto"],
