@@ -44,7 +44,7 @@ message HealthListRequest {
 }
 
 message HealthListResponse {
-  map<string, HealthCheckResponse> services_statuses = 2; // Contains all the service and their respective status.
+  map<string, HealthCheckResponse> statuses = 1; // Contains all the services and their respective status.
 }
 
 // Health is gRPC's mechanism for checking whether a server is able to handle
@@ -64,7 +64,7 @@ service Health {
 
   // List gets the health of all the available services. A filtered list can
   // be obtained by sending the list of the respective service names. If the
-  // list of service names is empty must return all the available services.
+  // list of service names is empty, all the available services must be returned.
   //
   // Use case: Integrate servers and status report dashboards.
   //
