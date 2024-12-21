@@ -448,6 +448,7 @@ message RingHashLoadBalancingConfig {
   // as the client-side cap value.
   uint64 min_ring_size = 1;  // Optional, defaults to 1024, max 8M.
   uint64 max_ring_size = 2;  // Optional, defaults to 4096, max 8M.
+  string request_hash_header = 3;  // Optional, see gRFC A76.
 }
 
 // Configuration for the xds_wrr_locality load balancing policy.
