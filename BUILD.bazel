@@ -259,34 +259,3 @@ proto_library(
         "@com_google_protobuf//:wrappers_proto",
     ],
 )
-
-proto_library(
-    name = "s2a_common_proto",
-    srcs = [
-        "grpc/gcp/s2a/common.proto",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-proto_library(
-    name = "s2a_context_proto",
-    srcs = [
-        "grpc/gcp/s2a/s2a_context.proto",
-    ],
-    visibility = ["//visibility:public"],
-    deps = [
-        ":s2a_common_proto",
-    ],
-)
-
-proto_library(
-    name = "s2a_proto",
-    srcs = [
-        "grpc/gcp/s2a/s2a.proto",
-    ],
-    visibility = ["//visibility:public"],
-    deps = [
-        ":s2a_common_proto",
-        ":s2a_context_proto",
-    ],
-)
