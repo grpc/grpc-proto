@@ -7,16 +7,21 @@ on:
 permissions:
   contents: read
 
-env:
-  USE_BAZEL_VERSION: 5.0.0
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    env:
+      USE_BAZEL_VERSION: ${{ matrix.bazel_version }}
+    strategy:
+      matrix:
+        bazel_version: ["6.0.0", "7.0.0"]
+        bzlmod: ["--noenable_bzlmod", "--enable_bzlmod"]
+        exclude:
+          - bazel_version: "6.0.0"
+            bzlmod: "--enable_bzlmod"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Run bazel build
-        run: bazelisk build //...
+        run: bazelisk build ${{ matrix.bzlmod }} //...

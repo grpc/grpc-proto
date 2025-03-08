@@ -108,6 +108,12 @@ message StartClientHandshakeReq {
 
   // (Optional) Maximum frame size supported by the client.
   uint32 max_frame_size = 10;
+
+  // (Optional) An access token created by the caller only intended for use in
+  // ALTS connections. The access token that should be used to authenticate to
+  // the peer. The access token MUST be strongly bound to the ALTS credentials
+  // used to establish the connection that the token is sent over.
+  string access_token = 11 [debug_redact = true];
 }
 
 message ServerHandshakeParameters {
@@ -118,6 +124,12 @@ message ServerHandshakeParameters {
   // (Optional) A list of local identities supported by the server, if
   // specified. Otherwise, the handshaker chooses a default local identity.
   repeated Identity local_identities = 2;
+
+  // A token created by the caller only intended for use in
+  // ALTS connections. The token should be used to authenticate to
+  // the peer. The token MUST be strongly bound to the ALTS credentials
+  // used to establish the connection that the token is sent over.
+  optional string token = 3 [debug_redact = true];
 }
 
 message StartServerHandshakeReq {
@@ -133,7 +145,7 @@ message StartServerHandshakeReq {
   map<int32, ServerHandshakeParameters> handshake_parameters = 2;
 
   // Bytes in out_frames returned from the peer's HandshakerResp. It is possible
-  // that the peer's out_frames are split into multiple HandshakReq messages.
+  // that the peer's out_frames are split into multiple HandshakeReq messages.
   bytes in_bytes = 3;
 
   // (Optional) Local endpoint information of the connection to the client,

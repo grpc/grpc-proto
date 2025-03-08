@@ -1,0 +1,66 @@
+// Copyright 2024 gRPC authors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package grpc.testing.xdsconfig;
+
+option go_package = "grpc/interop/grpc_testing/xdsconfig";
+
+import "google/protobuf/any.proto";
+
+// Request the server to stop on recieving request for the resource with
+// provided type and name
+message StopOnRequestRequest {
+  string type_url = 1;
+  string name = 2;
+};
+
+// Response to a request to stop server on specific resource request. Contains
+// a list of resources would cause the server to stop
+message StopOnRequestResponse {
+  message ResourceFilter {
+    string type_url = 1;
+    string name = 2;
+  };
+
+  repeated ResourceFilter filters = 1;
+};
+
+// Request to set one or more resources.
+message SetResourcesRequest {
+  message ResourceToSet {
+    // Resource type
+    string type_url = 1;
+    // Resource name
+    string name = 2;
+    // Optional resource contents. Resource is removed if not provided.
+    optional google.protobuf.Any body = 3;
+  };
+  repeated ResourceToSet resources = 1;
+}
+
+// Response to request to set resource. Contains all xDS resources from the
+// server
+message SetResourcesResponse {
+  repeated google.protobuf.Any resource = 1;
+};
+
+// Service to control the control plane from the test script
+service XdsConfigControlService {
+  // Instructs the server to exit when given resource is requested
+  rpc StopOnRequest(StopOnRequestRequest) returns (StopOnRequestResponse);
+  // A generic way to set xDS resources
+  rpc SetResources(SetResourcesRequest) returns (SetResourcesResponse);
+};

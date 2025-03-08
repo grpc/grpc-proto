@@ -57,7 +57,7 @@ message Channel {
 }
 
 // Subchannel is a logical grouping of channels, subchannels, and sockets.
-// A subchannel is load balanced over by it's ancestor
+// A subchannel is load balanced over by its ancestor
 message Subchannel {
   // The identifier for this channel.
   SubchannelRef ref = 1;
@@ -552,7 +552,7 @@ message GetSocketRequest {
   int64 socket_id = 1;
 
   // If true, the response will contain only high level information
-  // that is inexpensive to obtain. Fields thay may be omitted are
+  // that is inexpensive to obtain. Fields that may be omitted are
   // documented.
   bool summary = 2;
 }
