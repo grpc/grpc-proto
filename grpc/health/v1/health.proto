@@ -40,9 +40,7 @@ message HealthCheckResponse {
   ServingStatus status = 1;
 }
 
-message HealthListRequest {
-  repeated string services = 1; // Contains the name of the services that should be obtained. If empty, must returns all.
-}
+message HealthListRequest {}
 
 message HealthListResponse {
   map<string, HealthCheckResponse> statuses = 1; // Contains all the services and their respective status.
@@ -63,18 +61,19 @@ service Health {
   // Check implementations should be idempotent and side effect free.
   rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
 
-  // List gets the health of all the available services. A filtered list can
-  // be obtained by sending the list of the respective service names. If the
-  // list of service names is empty, all the available services must be returned.
+  // List provides a non-atomic snapshot of the health of all the available services.
   //
-  // Use case: Integrate servers and status report dashboards.
+  // The maximum number of services to return is 100; responses exceeding this limit will result in a RESOURCE_EXHAUSTED
+  // error.
   //
   // Clients should set a deadline when calling List, and can declare the
   // server unhealthy if they do not receive a timely response.
   //
+  // Clients should keep in mind that the list of health services exposed by an application
+  // can change over the lifetime of the process.
   //
   // List implementations should be idempotent and side effect free.
-  rpc List(HealthListRequest) returns (HealthCheckResponse);
+  rpc List(HealthListRequest) returns (HealthListResponse);
 
   // Performs a watch for the serving status of the requested service.
   // The server will immediately send back a message indicating the current
