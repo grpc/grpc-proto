@@ -43,7 +43,8 @@ message HealthCheckResponse {
 message HealthListRequest {}
 
 message HealthListResponse {
-  map<string, HealthCheckResponse> statuses = 1; // Contains all the services and their respective status.
+  // statuses contains all the services and their respective status.
+  map<string, HealthCheckResponse> statuses = 1;
 }
 
 // Health is gRPC's mechanism for checking whether a server is able to handle
@@ -57,22 +58,19 @@ service Health {
   //
   // Clients should set a deadline when calling Check, and can declare the
   // server unhealthy if they do not receive a timely response.
-  //
-  // Check implementations should be idempotent and side effect free.
   rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
 
-  // List provides a non-atomic snapshot of the health of all the available services.
+  // List provides a non-atomic snapshot of the health of all the available
+  // services.
   //
-  // The maximum number of services to return is 100; responses exceeding this limit will result in a RESOURCE_EXHAUSTED
-  // error.
+  // The maximum number of services to return is 100; if responses contain more
+  // than this limit, it will result in a RESOURCE_EXHAUSTED error.
   //
-  // Clients should set a deadline when calling List, and can declare the
-  // server unhealthy if they do not receive a timely response.
+  // Clients should set a deadline when calling List, and can declare the server
+  // unhealthy if they do not receive a timely response.
   //
-  // Clients should keep in mind that the list of health services exposed by an application
-  // can change over the lifetime of the process.
-  //
-  // List implementations should be idempotent and side effect free.
+  // Clients should keep in mind that the list of health services exposed by an
+  // application can change over the lifetime of the process.
   rpc List(HealthListRequest) returns (HealthListResponse);
 
   // Performs a watch for the serving status of the requested service.
