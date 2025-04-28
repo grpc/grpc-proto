@@ -26,7 +26,6 @@ option java_multiple_files = true;
 option java_outer_classname = "HandshakerProto";
 option java_package = "io.grpc.alts.internal";
 
-
 enum HandshakeProtocol {
   // Default value.
   HANDSHAKE_PROTOCOL_UNSPECIFIED = 0;
@@ -113,7 +112,10 @@ message StartClientHandshakeReq {
   // ALTS connections. The access token that should be used to authenticate to
   // the peer. The access token MUST be strongly bound to the ALTS credentials
   // used to establish the connection that the token is sent over.
-  string access_token = 11 [debug_redact = true];
+  string access_token = 11 [ debug_redact = true ];
+
+  // (Optional) Ordered transport protocol preferences supported by the client.
+  TransportProtocolPreferences transport_protocol_preferences = 12;
 }
 
 message ServerHandshakeParameters {
@@ -129,7 +131,7 @@ message ServerHandshakeParameters {
   // ALTS connections. The token should be used to authenticate to
   // the peer. The token MUST be strongly bound to the ALTS credentials
   // used to establish the connection that the token is sent over.
-  optional string token = 3 [debug_redact = true];
+  optional string token = 3 [ debug_redact = true ];
 }
 
 message StartServerHandshakeReq {
@@ -161,6 +163,9 @@ message StartServerHandshakeReq {
 
   // (Optional) Maximum frame size supported by the server.
   uint32 max_frame_size = 7;
+
+  // (Optional) Transport protocol preferences supported by the server.
+  TransportProtocolPreferences transport_protocol_preferences = 8;
 }
 
 message NextHandshakeMessageReq {
@@ -216,6 +221,9 @@ message HandshakerResult {
 
   // The maximum frame size of the peer.
   uint32 max_frame_size = 8;
+
+  // (Optional) The transport protocol negotiated for this connection.
+  NegotiatedTransportProtocol transport_protocol = 9;
 }
 
 message HandshakerStatus {
@@ -254,7 +262,5 @@ service HandshakerService {
   // messages with next. Each time client sends a request, the handshaker
   // service expects to respond. Client does not have to wait for service's
   // response before sending next request.
-  rpc DoHandshake(stream HandshakerReq)
-      returns (stream HandshakerResp) {
-  }
+  rpc DoHandshake(stream HandshakerReq) returns (stream HandshakerResp) {}
 }
