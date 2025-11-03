@@ -628,7 +628,24 @@ message ServiceConfig {
   }
   HealthCheckConfig health_check_config = 5;
 
-  // next available tag: 6
+  // Settings to control dynamic connection scaling.
+  message ConnectionScaling {
+    // Maximum connections gRPC will maintain for each subchannel in
+    // this channel.  When no streams are available for an RPC in a
+    // subchannel, gRPC will automatically create new connections up
+    // to this limit.  If this value changes during the life of a
+    // channel, existing subchannels will be updated to reflect
+    // the change.  No connections will be closed as a result of
+    // lowering this value; down-scaling will only happen as
+    // connections are lost naturally.
+    //
+    // Values higher than the client-enforced limit (by default, 10)
+    // will be clamped to that limit.
+    google.protobuf.UInt32Value max_connections_per_subchannel = 1;
+  }
+  ConnectionScaling connection_scaling = 6;
+
+  // next available tag: 7
 }
 
 //
