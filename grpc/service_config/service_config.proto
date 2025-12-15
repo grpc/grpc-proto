@@ -480,12 +480,12 @@ message OverrideHostLoadBalancingPolicyConfig {
 // Configuration for the random_subsetting_experimental LB policy.
 // See gRFC A68.
 message RandomSubsettingLoadBalancingConfig {
-    // Number of backends every client will be connected to. The value is
-    // required and must be greater than 0.
-    uint32 subset_size = 1;
+  // Number of backends every client will be connected to. The value is
+  // required and must be greater than 0.
+  uint32 subset_size = 1;
 
-    // The configuration for the child policy. The value is required.
-    repeated LoadBalancingConfig child_policy = 2;
+  // The configuration for the child policy. The value is required.
+  repeated LoadBalancingConfig child_policy = 2;
 }
 
 // Selects LB policy and provides corresponding configuration.
