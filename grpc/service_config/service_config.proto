@@ -477,6 +477,17 @@ message OverrideHostLoadBalancingPolicyConfig {
   repeated HealthStatus override_host_status = 1 [deprecated = true];
 }
 
+// Configuration for the random_subsetting_experimental LB policy.
+// See gRFC A68.
+message RandomSubsettingLoadBalancingConfig {
+  // Number of backends every client will be connected to. The value is
+  // required and must be greater than 0.
+  uint32 subset_size = 1;
+
+  // The configuration for the child policy. The value is required.
+  repeated LoadBalancingConfig child_policy = 2;
+}
+
 // Selects LB policy and provides corresponding configuration.
 //
 // In general, all instances of this field should be repeated. Clients will
@@ -542,6 +553,8 @@ message LoadBalancingConfig {
         [json_name = "ring_hash_experimental"];
     LeastRequestLocalityLoadBalancingPolicyConfig least_request_experimental =
         17 [json_name = "least_request_experimental"];
+    RandomSubsettingLoadBalancingConfig random_subsetting_experimental =
+        21 [json_name = "random_subsetting_experimental"];
 
     // Deprecated xDS-related policies.
     XdsClusterResolverLoadBalancingPolicyConfig
@@ -555,7 +568,7 @@ message LoadBalancingConfig {
     XdsConfig xds_experimental = 5 [json_name = "xds_experimental",
                                     deprecated = true];
 
-    // Next available ID: 21
+    // Next available ID: 22
   }
 }
 
