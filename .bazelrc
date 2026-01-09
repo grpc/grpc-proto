@@ -1,1 +1,18 @@
+# Security-hardened Bazel configuration
+
+# Enable Bzlmod for cryptographically verified dependencies
+common --enable_bzlmod
+
+# Disable WORKSPACE for security (forces MODULE.bazel usage)
+common --noenable_workspace
+
+# Enforce reproducible builds
+build --incompatible_strict_action_env
+
+# Enable sandboxing for build isolation
+build --spawn_strategy=sandboxed
+
+# Lockfile for dependency verification
+common --lockfile_mode=update
+
 build --cxxopt=-std=c++14 --host_cxxopt=-std=c++14

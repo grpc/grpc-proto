@@ -12,38 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# proto_library, cc_proto_library, and java_proto_library rules implicitly
-# depend on @com_google_protobuf for protoc and proto runtimes.
-# This statement defines the @com_google_protobuf repo.
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-http_archive(
-    name = "com_google_protobuf",
-    sha256 = "616bb3536ac1fff3fb1a141450fa28b875e985712170ea7f1bfe5e5fc41e2cd8",
-    strip_prefix = "protobuf-24.4",
-    urls = ["https://github.com/protocolbuffers/protobuf/releases/download/v24.4/protobuf-24.4.tar.gz"],
-)
-
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-
-protobuf_deps()
-
-# Unfortunately the googleapis repo doesn't seem to be doing regular releases.
-# Their last and only one was on Sep 1, 2016. So, we need to pin to a
-# particular git commit, and this one was made on Feb 6, 2020.
-GOOGLEAPIS_GIT_SHA = "052b274138fce2be80f97b6dcb83ab343c7c8812"
-
-GOOGLEAPIS_SHA = "e31dc9f889bf53e001998d16385881b507c8cc1455bbe5618b16f0f8cb0fd46f"
-
-http_archive(
-    name = "com_google_googleapis",
-    sha256 = GOOGLEAPIS_SHA,
-    strip_prefix = "googleapis-" + GOOGLEAPIS_GIT_SHA,
-    urls = ["https://github.com/googleapis/googleapis/archive/" + GOOGLEAPIS_GIT_SHA + ".tar.gz"],
-)
-
-load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
-
-switched_rules_by_language(
-    name = "com_google_googleapis_imports",
-)
+# DEPRECATED: This WORKSPACE file is deprecated and contains security vulnerabilities.
+# Please use MODULE.bazel (Bzlmod) instead for secure dependency management.
+# 
+# Security Issue: The previous configuration used git commits with weak verification,
+# creating supply chain attack vectors. MODULE.bazel uses cryptographically verified
+# dependencies from the Bazel Central Registry.
+#
+# To migrate: Use `bazel build --enable_bzlmod` or add `common --enable_bzlmod` to .bazelrc
