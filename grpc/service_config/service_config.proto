@@ -628,7 +628,8 @@ message ServiceConfig {
   }
   HealthCheckConfig health_check_config = 5;
 
-  // Settings to control dynamic connection scaling.
+  // Settings to control dynamic connection scaling.  For details, see:
+  // https://github.com/grpc/proposal/blob/master/A105-max_concurrent_streams-connection-scaling.md
   message ConnectionScaling {
     // Maximum connections gRPC will maintain for each subchannel in
     // this channel.  When no streams are available for an RPC in a
