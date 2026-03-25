@@ -259,3 +259,19 @@ proto_library(
         "@com_google_protobuf//:wrappers_proto",
     ],
 )
+
+proto_library(
+    name = "fuzzing_event_engine_proto",
+    srcs = ["grpc/testing/fuzzing/fuzzing_event_engine.proto"],
+    visibility = ["//visibility:public"],
+)
+
+proto_library(
+    name = "xds_client_fuzzer_proto",
+    srcs = ["grpc/testing/fuzzing/xds_client_fuzzer.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@envoy_api//envoy/service/discovery/v3:discovery_proto",
+        ":fuzzing_event_engine_proto",
+    ],
+)
