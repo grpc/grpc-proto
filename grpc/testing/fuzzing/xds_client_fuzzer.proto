@@ -16,7 +16,7 @@ syntax = "proto3";
 
 package grpc.testing.fuzzing;
 
-import "envoy/service/discovery/v3/discovery.proto";
+import "google/protobuf/any.proto";
 import "grpc/testing/fuzzing/fuzzing_event_engine.proto";
 
 option go_package = "google.golang.org/grpc/testing/fuzzing/xds_client_fuzzer";
@@ -88,7 +88,7 @@ message ReadMessageFromClient {
 
 message SendMessageToClient {
   StreamId stream_id = 1;
-  envoy.service.discovery.v3.DiscoveryResponse response = 2;
+  google.protobuf.Any response = 2;
 }
 
 message SendStatusToClient {

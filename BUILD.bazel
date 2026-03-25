@@ -271,7 +271,7 @@ proto_library(
     srcs = ["grpc/testing/fuzzing/xds_client_fuzzer.proto"],
     visibility = ["//visibility:public"],
     deps = [
-        "@envoy_api//envoy/service/discovery/v3:discovery_proto",
         ":fuzzing_event_engine_proto",
+        "@com_google_protobuf//:any_proto",
     ],
 )
