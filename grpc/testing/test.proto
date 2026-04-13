@@ -65,6 +65,12 @@ service TestService {
   // The test server will not implement this method. It will be used
   // to test the behavior when clients call unimplemented methods.
   rpc UnimplementedCall(grpc.testing.Empty) returns (grpc.testing.Empty);
+
+  // A persistent bidirectional streaming RPC where messages are in sequence in the same bidi stream.
+  // The client sends one request followed by one response.
+  // This sequential message exchange over a bidi stream is used to benchmark
+  // latency in Streamed Batching.
+  rpc StreamedSequentialUnaryCall(stream SimpleRequest) returns (stream SimpleResponse);
 }
 
 // A simple service NOT implemented at servers so clients can test for
