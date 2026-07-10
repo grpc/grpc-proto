@@ -55,7 +55,7 @@ message InitialLoadBalanceRequest {
 // Contains the number of calls finished for a particular load balance token.
 message ClientStatsPerToken {
   // See Server.load_balance_token.
-  string load_balance_token = 1;
+  string load_balance_token = 1 [ debug_redact = true ];
 
   // The total number of RPCs that finished associated with the token.
   int64 num_calls = 2;
@@ -140,7 +140,7 @@ message Server {
   // also used in client stats for reporting dropped calls.
   //
   // Its length can be variable but must be less than 50 bytes.
-  string load_balance_token = 3;
+  string load_balance_token = 3 [ debug_redact = true ];
 
   // Indicates whether this particular request should be dropped by the client.
   // If the request is dropped, there will be a corresponding entry in
