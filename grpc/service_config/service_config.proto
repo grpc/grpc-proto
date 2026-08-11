@@ -488,15 +488,14 @@ message RandomSubsettingLoadBalancingConfig {
   repeated LoadBalancingConfig child_policy = 2;
 }
 
-// Configuration for the slicer_experimental LB policy.
+// Configuration for the autosharding_experimental LB policy.
 // See gFRC A119.
-message SlicerLoadBalancingPolicyConfig {
+message AutoShardingLoadBalancingPolicyConfig {
   // Key to pass to the "Channel Factory" to create a gRPC Channel to the
   // sharding service.
   string channel_factory_key = 1;
 
-  // An identifier sent to the sharding service. Assignments and load reports
-  // are scoped to this identifier.
+  // A unique ID sent to the sharding service to locate assignments.
   //
   // Can optionally contain a "%s" token that will be replaced with the
   // "Locality" before sending. If a "%s" token is present, but the "Locality"
@@ -508,24 +507,15 @@ message SlicerLoadBalancingPolicyConfig {
   // is used to look up the matching key-range assigned by the sharding service.
   string slice_key_header_name = 3;
 
-  // Mode used to pick an endpoint for a request.
-  enum EndpointPickingMode {
-   RANDOM = 0;
-  }
-
-  // Mode used to pick an endpoint from a matching key range.
-  // If unset, defaults to RANDOM.
-  EndpointPickingMode slice_picking_mode = 4;
-
   // If true, fallback mechanism is enabled.
-  bool enable_fallback = 5;
+  bool enable_fallback = 4;
 
-  // A timeout value for fallback to kick in when no assignments have been
-  // received from the sharding service.
-  // If unset, defaults to 60 seconds.
-  google.protobuf.Duration fallback_timeout = 6;
+  // How long to wait for the initial assignment from the sharding service. If
+  // no assignment is received before the timer fires, the LB policy  will either
+  // go into fallback mode (if enable_fallback is true) or fail RPCs.
+  // Defaults to 60 seconds if not specified.
+  google.protobuf.Duration initial_assignment_timeout = 5;
 }
-
 
 // Selects LB policy and provides corresponding configuration.
 //
@@ -594,8 +584,8 @@ message LoadBalancingConfig {
         17 [json_name = "least_request_experimental"];
     RandomSubsettingLoadBalancingConfig random_subsetting_experimental =
         21 [json_name = "random_subsetting_experimental"];
-    SlicerLoadBalancingPolicyConfig slicer_experimental = 22
-        [json_name = "slicer_experimental"];
+    AutoShardingLoadBalancingPolicyConfig autosharding_experimental = 22
+        [json_name = "autosharding_experimental"];
 
     // Deprecated xDS-related policies.
     XdsClusterResolverLoadBalancingPolicyConfig
