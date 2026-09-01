@@ -119,7 +119,7 @@ message Message {
 // A list of metadata pairs, used in the payload of CLIENT_INIT_METADATA,
 // SERVER_INIT_METADATA and TRAILING_METADATA
 // Implementations may omit some entries to honor the header limits
-// of GRPC_BINARY_LOG_CONFIG.
+// of GRPC_BINARY_LOG_FILTER.
 // 
 // Implementations will not log the following entries, and this is
 // not to be treated as a truncation:
@@ -127,7 +127,9 @@ message Message {
 //   that begin with 'grpc-' or keys like 'lb-token'
 // - transport specific entries, including but not limited to:
 //   ':path', ':authority', 'content-encoding', 'user-agent', 'te', etc
-// - entries added for call credentials
+// - entries added for call credentials (on client side, excludes all
+//   such headers; on server side, excludes only the "authorization"
+//   header)
 message Metadata {
   repeated MetadataEntry entry = 1 [deprecated = true];
 }
