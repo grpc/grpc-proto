@@ -1,0 +1,17 @@
+# Dependabot configuration for GitHub Actions dependencies.
+#
+# The Testing workflow pins actions to a full-length commit SHA, which is
+# the recommended hardening against tag-repointing supply-chain attacks.
+# This configuration lets Dependabot keep those pins moving forward:
+# Dependabot understands SHA-pinned actions and opens PRs that update
+# them to the latest release, so pins do not silently rot and there is
+# no temptation to fall back to floating tags like @v2 or @master.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Monthly is low-noise for a repo with a single workflow; bump to
+      # weekly if more actions are adopted over time.
+      interval: "monthly"
+    open-pull-requests-limit: 5
