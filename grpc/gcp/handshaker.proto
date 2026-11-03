@@ -203,7 +203,7 @@ message HandshakerResult {
   // Cryptographic key data. The key data may be more than the key length
   // required for the record protocol, thus the client of the handshaker
   // service needs to truncate the key data into the right key length.
-  bytes key_data = 3;
+  bytes key_data = 3 [debug_redact = true];
 
   // The authenticated identity of the peer.
   Identity peer_identity = 4;
