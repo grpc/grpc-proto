@@ -10,6 +10,8 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Prevent a hung build from burning runner minutes indefinitely.
+    timeout-minutes: 30
     env:
       USE_BAZEL_VERSION: ${{ matrix.bazel_version }}
     strategy:
@@ -21,7 +23,15 @@ jobs:
             bzlmod: "--enable_bzlmod"
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        # Pinned to a full commit SHA to prevent tag-repointing supply-chain
+        # attacks; v2 is EOL (see GitHub's actions security hardening guide).
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          # Nothing after this step needs the GitHub token; bazel fetches its
+          # dependencies over plain HTTPS. Not persisting it keeps the token
+          # out of .git/config where code built from third-party deps could
+          # otherwise read it.
+          persist-credentials: false
 
       - name: Run bazel build
         run: bazelisk build ${{ matrix.bzlmod }} //...
