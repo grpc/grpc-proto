@@ -1,0 +1,55 @@
+// Copyright 2026 The gRPC Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package grpc.semantic_sharding.v1;
+
+option go_package = "google.golang.org/grpc/semantic_sharding/grpc_semantic_sharding_v1";
+option java_multiple_files = true;
+option java_package = "io.grpc.semantic_sharding.v1";
+option java_outer_classname = "SemanticShardingProto";
+
+// SemanticShardingClusterSpecifier is used in xDS to represent a cluster
+// specifier plugin for semantic sharding.
+message SemanticShardingClusterSpecifier {
+  // Represents the shard assignment for a semantic tier.
+  message ShardAssignments {
+    message Shard {
+      // Start of key range (inclusive).  If unset, this is the first range.
+      bytes shard_key_start = 1;
+      // End of key range (exclusive).  If unset, this is the last range.
+      bytes shard_key_end = 2;
+      // xDS cluster to use for this key range.
+      string cluster = 3;
+    }
+
+    // The shard assignments.  Ranges will be non-overlapping.
+    repeated Shard shards = 1;
+  }
+
+  // The name of the request header containing the semantic tier.
+  string semantic_tier_header = 1;
+
+  // The semantic tier value to use if the header specified by
+  // semantic_tier_header is not present on the RPC.
+  // If unset, defaults to "SEMANTIC_TIER_UNKNOWN".
+  string default_semantic_tier = 2;
+
+  // The name of the request header containing the partition key.
+  string partition_key_header = 3;
+
+  // Maps from semantic tier to assignment.
+  map<string, ShardAssignments> semantic_tier_assignments = 4;
+}
